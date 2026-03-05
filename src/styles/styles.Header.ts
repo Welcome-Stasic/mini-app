@@ -1,0 +1,62 @@
+import styled from "@emotion/styled";
+
+export const HeaderContainer = styled.header<{ theme: string }>`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 56px;
+  background: ${(p) => (p.theme === "light" ? "#fbfbfb" : "#212121")};
+  color: ${(p) => (p.theme === "light" ? "#333333" : "#ffffff")};
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  box-sizing: border-box;
+  border-bottom: ${(p) => (p.theme === "light" ? "0.5px solid #d0d0d0" : "")};
+  z-index: 999;
+`;
+
+export const CloseButton = styled.button<{ theme: string }>`
+  width: 48px;
+  height: 48px;
+  background: none;
+  border: none;
+  color: ${(p) => (p.theme === "light" ? "#0000000" : "#fff")};
+  font-size: 32px;
+  font-weight: 400;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+`;
+
+export const Title = styled.h1`
+  margin: 0;
+  flex: 1;
+  font-size: 19px;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+export const MenuButton = styled.button<{ theme: string }>`
+  width: 48px;
+  height: 48px;
+  color: ${(p) => (p.theme === "light" ? "#333333" : "#ffffff")};
+  background: none;
+  border: none;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+`;

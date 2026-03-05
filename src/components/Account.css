@@ -1,0 +1,381 @@
+.account-card {
+  padding: 16px;
+  padding-bottom: 76px;
+}
+
+/* --- Верхняя часть профиля --- */
+.account-header {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.account-header-actions {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  display: flex;
+  gap: 8px;
+  z-index: 5;
+}
+
+/* Кнопки управления */
+.account-action {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  background: #f3f4f6;
+  color: #111827;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition:
+    transform 0.12s ease,
+    background-color 0.12s ease;
+}
+
+.account-action:hover {
+  transform: translateY(-1px);
+}
+
+.account-action.edit img {
+  width: 20px;
+  height: 20px;
+}
+
+.account-action.cancel {
+  background: #f3f4f6;
+}
+
+.account-action.save {
+  background: #1f6feb;
+  color: #fff;
+}
+
+/* Аватар и подпись */
+.account-avatar-wrapper {
+  position: relative;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.account-avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.account-avatar-edit {
+  position: absolute;
+  right: -80px;
+  bottom: 70px;
+  width: 35px;
+  height: 35px;
+  border-radius: 20%;
+  background: #4378ff1a;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.account-change-photo {
+  margin-top: 8px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #1f6feb;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Имя и подписи */
+.account-name {
+  text-align: center;
+}
+
+.account-fullname {
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 153%;
+  letter-spacing: 0.01em;
+}
+
+.account-meta {
+  color: #6b7280;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: 0.01em;
+}
+
+/* --- Поля ввода --- */
+.account-fields {
+  margin-top: 16px;
+  display: grid;
+  gap: 12px;
+}
+
+.account-fields label {
+  display: none;
+}
+
+.account-fields input {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #fff;
+  color: #111827;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: 0.01em;
+  -webkit-appearance: none;
+  background-clip: padding-box;
+  z-index: 1;
+}
+
+/* Текстовая область со скроллом */
+.textarea-scroll {
+  padding: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #fff;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.textarea-scroll textarea {
+  display: block;
+  width: 100%;
+  min-height: 135px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: 0.01em;
+  color: #111827;
+  border: none;
+  outline: none;
+  resize: none;
+  background: transparent;
+  overflow: visible;
+  z-index: 1;
+  -webkit-appearance: none;
+  background-clip: padding-box;
+}
+
+/* Лейблы над полями */
+.field {
+  position: relative;
+  margin-top: 12px;
+}
+
+.field-label {
+  position: absolute;
+  left: 12px;
+  top: 0;
+  transform: translateY(-50%);
+  background: #fff;
+  padding: 0 6px;
+  color: #a2acb0;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  z-index: 3;
+  pointer-events: none;
+  display: inline-block;
+}
+
+/* --- Сайт пользователя --- */
+.account-website-field {
+  position: relative;
+  width: 100%;
+  margin: 20px 0;
+}
+
+.account-website-input {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(67, 120, 255, 0.05);
+  color: #1f6feb;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+}
+
+.account-website-copy {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  min-height: 24px;
+}
+
+.account-website-copy.copied:hover {
+  background: #059669;
+}
+
+/* --- Теги и чекбоксы --- */
+.account-tags {
+  margin-top: 16px;
+}
+
+.account-tags-title {
+  font-size: 16px;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.account-tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.account-tag {
+  padding: 12px 20px;
+  background: #f3f4f6;
+  border-radius: 12px;
+  font-size: 16px;
+}
+
+.chip-input {
+  width: 100%;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 6px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #f9fafb;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: #eef2ff;
+  color: #1f6feb;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.chip-x {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #1f6feb;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.chip-text {
+  flex: 1;
+  min-width: 100px;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 6px;
+}
+
+.checkbox-list {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 6px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #f9fafb;
+}
+
+.checkbox-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 12px;
+  background: #f3f4f6;
+  cursor: pointer;
+}
+
+.checkbox-item input {
+  accent-color: #1f6feb;
+}
+
+.checkbox-item.checked {
+  background: #eef2ff;
+  color: #1f6feb;
+}
+
+/* --- Кнопки сохранения профиля --- */
+.account-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.account-btn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.account-btn.cancel {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.account-btn.save {
+  background: #1f6feb;
+  color: #fff;
+}
+
+/* --- iOS фиксы для disabled/readonly --- */
+.account-fields input[disabled],
+.account-fields textarea[disabled],
+.account-fields input[readonly],
+.account-fields textarea[readonly] {
+  color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
+  opacity: 1 !important;
+}
+
+.account-fields input[disabled],
+.account-fields textarea[disabled] {
+  background: #fff !important;
+  cursor: default;
+}
+
+/* --- Контейнер с состоянием редактирования --- */
+.account-container.is-editing {
+}
