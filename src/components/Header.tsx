@@ -14,14 +14,11 @@ export default function Header({
   showClose = true,
 }: HeaderProps) {
   const navigate = useNavigate();
-  const { theme } = useTheme();
-  // const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <S.HeaderContainer theme={theme}>
-      {/* <button onClick={toggleTheme}>
-        {theme === "light" ? "тёмная" : "светлая"}
-      </button> */}
+      <button onClick={toggleTheme}>{theme === "light" ? "🌙" : "☀️"}</button>
       {showClose && (
         <S.CloseButton theme={theme} onClick={() => navigate(-1)}>
           ×
@@ -34,4 +31,5 @@ export default function Header({
     </S.HeaderContainer>
   );
 }
+
 
