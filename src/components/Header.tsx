@@ -14,7 +14,8 @@ export default function Header({
   showClose = true,
 }: HeaderProps) {
   const navigate = useNavigate();
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
+  // const { theme, toggleTheme } = useTheme();
 
   return (
     <S.HeaderContainer theme={theme}>
@@ -33,3 +34,4 @@ export default function Header({
     </S.HeaderContainer>
   );
 }
+
