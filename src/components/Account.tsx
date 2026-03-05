@@ -3,9 +3,7 @@ import { useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import { IconCop, IconCopy, IconEdit } from '../icon/icons.tsx';
 
-
 const AccountContainer = styled.div<{ isEditing: boolean }>`
-
   ${props => props.isEditing && `background: white;`}
 `;
 
@@ -251,7 +249,6 @@ const AccountTag = styled.span`
   color: #374151;
 `;
 
-
 const TechSection = styled.div`
   margin-top: 24px;
 `;
@@ -314,7 +311,7 @@ const TechInput = styled.input`
 `;
 
 const AddButton = styled.button`
- padding: 10px 28px;
+  padding: 10px 28px;
   background: #4378FF1A;
   color: #007AFF;
   border: none;
@@ -326,6 +323,7 @@ const AddButton = styled.button`
   align-self: flex-start;
   width: 100%;
 `;
+
 const DirectionEditContainer = styled.div<{ isEditing?: boolean }>`
   border: 1px solid ${({ isEditing }) => (isEditing ? '#1f6feb' : '#e5e7eb')};
   border-radius: 10px;
@@ -338,7 +336,6 @@ const DirectionEditContainer = styled.div<{ isEditing?: boolean }>`
     isEditing &&
     `
       border-color: #1f6feb;
-  
   `}
 `;
 
@@ -348,9 +345,10 @@ export default function Account() {
   const [isCopied, setIsCopied] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
+  // Безопасная инициализация формы с приведением к строке
   const [form, setForm] = useState({
     fullName: user?.fullName ?? '',
-    age: String(user?.age ?? ''),
+    age: user?.age ? String(user.age) : '',
     course: user?.course ?? '',
     website: user?.website ?? '',
     username: user?.username ?? '',
@@ -389,10 +387,9 @@ export default function Account() {
                 <AccountAction
                   onClick={() => {
                     setIsEditing(false);
-                    
                     setForm({
                       fullName: user.fullName ?? '',
-                      age: String(user.age ?? ''),
+                      age: user.age ? String(user.age) : '',
                       course: user.course ?? '',
                       website: user.website ?? '',
                       username: user.username ?? '',
@@ -447,52 +444,51 @@ export default function Account() {
           <AccountName>
             {isEditing ? (
               <>
-
                 <Field>
                   <FieldLabel isEditing={isEditing}>ФИО</FieldLabel>
-                  <Input  isEditing={isEditing}
-                    value={form.fullName}
+                  <Input 
+                    isEditing={isEditing}
+                    value={String(form.fullName || '')}
                     onChange={e => updateField('fullName', e.target.value)}
                   />
                 </Field>
 
-    
                 <Field>
                   <DirectionEditContainer isEditing={isEditing}>
-                  <FieldLabel isEditing={isEditing}>Направление</FieldLabel>
-                  <EditCheckboxList>
-                    {AVAILABLE_DIRECTIONS.map(opt => {
-                      const checked = directionTags.includes(opt);
-                      return (
-                        <EditCheckboxItem key={opt} checked={checked}>
-                          <input
-                            type="checkbox"
-                            checked={checked}
-                            onChange={e => {
-                              if (e.target.checked) {
-                                setDirectionTags(prev => [...prev, opt]);
-                              } else {
-                                setDirectionTags(prev => prev.filter(v => v !== opt));
-                              }
-                            }}
-                          />
-                          <span>{opt}</span>
-                        </EditCheckboxItem>
-                      );
-                    })}
-                  </EditCheckboxList>
+                    <FieldLabel isEditing={isEditing}>Направление</FieldLabel>
+                    <EditCheckboxList>
+                      {AVAILABLE_DIRECTIONS.map(opt => {
+                        const checked = directionTags.includes(opt);
+                        return (
+                          <EditCheckboxItem key={opt} checked={checked}>
+                            <input
+                              type="checkbox"
+                              checked={checked}
+                              onChange={e => {
+                                if (e.target.checked) {
+                                  setDirectionTags(prev => [...prev, opt]);
+                                } else {
+                                  setDirectionTags(prev => prev.filter(v => v !== opt));
+                                }
+                              }}
+                            />
+                            <span>{opt}</span>
+                          </EditCheckboxItem>
+                        );
+                      })}
+                    </EditCheckboxList>
                   </DirectionEditContainer>
                 </Field>
 
-      
                 <div style={{ display: 'flex', gap: 12, marginTop: 16 }}>
                   <Field style={{ flex: 1 }}>
                     <FieldLabel isEditing={isEditing}>Возраст</FieldLabel>
-                    <Input isEditing={isEditing}
+                    <Input 
+                      isEditing={isEditing}
                       type="number"
                       min={14}
                       max={25}
-                      value={form.age}
+                      value={String(form.age || '')}
                       onChange={e => {
                         const val = e.target.value;
                         if (val === '' || (+val >= 14 && +val <= 25)) {
@@ -513,7 +509,7 @@ export default function Account() {
                         border: isEditing ? '1px solid #1f6feb' : '1px solid #e5e7eb',
                         color: isEditing ? '#111827' : '#374151',
                       }}
-                      value={form.course}
+                      value={String(form.course || '')}
                       onChange={e => updateField('course', e.target.value)}
                     >
                       <option value="">Выбери курс</option>
@@ -536,10 +532,10 @@ export default function Account() {
           </AccountName>
         </AccountHeader>
 
-
         <WebsiteField>
-          <WebsiteInput isEditing={isEditing}
-            value={isEditing ? form.website : (user.website ?? '')}
+          <WebsiteInput 
+            isEditing={isEditing}
+            value={isEditing ? String(form.website || '') : String(user.website || '')}
             readOnly={!isEditing}
             onChange={e => updateField('website', e.target.value)}
             onClick={() => {
@@ -564,92 +560,102 @@ export default function Account() {
           )}
         </WebsiteField>
 
-
         <div style={{ display: 'grid', gap: '20px', marginTop: '16px' }}>
-          {['username', 'email', 'phone'].map(key => (
-            <Field key={key}>
-              <FieldLabel isEditing={isEditing}>
-                {key === 'username' ? 'Username' : key === 'email' ? 'Почта' : 'Телефон'}
-              </FieldLabel>
-              <Input isEditing={isEditing}
-                disabled={!isEditing}
-                value={isEditing ? form[key as keyof typeof form] : (user[key as keyof typeof user] ?? '')}
-                onChange={e => updateField(key as keyof typeof form, e.target.value)}
-              />
-            </Field>
-          ))}
+          {['username', 'email', 'phone'].map(key => {
+            // Безопасное получение значения
+            let displayValue = '';
+            
+            if (isEditing) {
+              displayValue = String(form[key as keyof typeof form] || '');
+            } else {
+              const userValue = user[key as keyof typeof user];
+              displayValue = userValue !== null && userValue !== undefined ? String(userValue) : '';
+            }
+            
+            return (
+              <Field key={key}>
+                <FieldLabel isEditing={isEditing}>
+                  {key === 'username' ? 'Username' : key === 'email' ? 'Почта' : 'Телефон'}
+                </FieldLabel>
+                <Input 
+                  isEditing={isEditing}
+                  disabled={!isEditing}
+                  value={displayValue}
+                  onChange={e => updateField(key as keyof typeof form, e.target.value)}
+                />
+              </Field>
+            );
+          })}
 
           <Field>
             <FieldLabel isEditing={isEditing}>О себе</FieldLabel>
             <TextareaWrapper isEditing={isEditing}>
               <Textarea 
                 disabled={!isEditing}
-                value={isEditing ? form.about : (user.about ?? '')}
+                value={isEditing ? String(form.about || '') : String(user.about || '')}
                 onChange={e => updateField('about', e.target.value)}
               />
             </TextareaWrapper>
           </Field>
         </div>
 
-{isEditing ? (
-  <TechSection>
-    
-    <TechTitle>Стек технологий</TechTitle> 
+        {isEditing ? (
+          <TechSection>
+            <TechTitle>Стек технологий</TechTitle> 
 
-    <TagsBox>
-      {techTags.map(t => (
-        <TechTag key={t}>
-          #{t}
-          <RemoveTag onClick={() => setTechTags(prev => prev.filter(x => x !== t))}>
-            ×
-          </RemoveTag>
-        </TechTag>
-      ))}
-    </TagsBox>
+            <TagsBox>
+              {techTags.map(t => (
+                <TechTag key={t}>
+                  #{t}
+                  <RemoveTag onClick={() => setTechTags(prev => prev.filter(x => x !== t))}>
+                    ×
+                  </RemoveTag>
+                </TechTag>
+              ))}
+            </TagsBox>
 
-    <TechInput 
-      value={tagInput}
-      onChange={e => setTagInput(e.target.value)}
-      placeholder="Технология"
-      onKeyDown={e => {
-        if ((e.key === 'Enter' || e.key === ',') && tagInput.trim()) {
-          e.preventDefault();
-          const val = tagInput.trim();
-          if (!techTags.includes(val)) {
-            setTechTags([...techTags, val]);
-          }
-          setTagInput('');
-        }
-      }}
-    />
+            <TechInput 
+              value={tagInput}
+              onChange={e => setTagInput(e.target.value)}
+              placeholder="Технология"
+              onKeyDown={e => {
+                if ((e.key === 'Enter' || e.key === ',') && tagInput.trim()) {
+                  e.preventDefault();
+                  const val = tagInput.trim();
+                  if (!techTags.includes(val)) {
+                    setTechTags([...techTags, val]);
+                  }
+                  setTagInput('');
+                }
+              }}
+            />
 
-    <AddButton
-      type="button"
-      onClick={() => {
-        if (tagInput.trim()) {
-          const val = tagInput.trim();
-          if (!techTags.includes(val)) {
-            setTechTags([...techTags, val]);
-          }
-          setTagInput('');
-        }
-      }}
-      disabled={!tagInput.trim()}
-    >
-      Добавить
-    </AddButton>
-  </TechSection>
-) : (
-
-  <TechSection>
-    <TechTitle>Стек технологий</TechTitle>
-    <AccountTagsList>
-      {techTags.map(tag => (
-        <AccountTag key={tag}>#{tag}</AccountTag>
-      ))}
-    </AccountTagsList>
-  </TechSection>
-)}
+            <AddButton
+              type="button"
+              onClick={() => {
+                if (tagInput.trim()) {
+                  const val = tagInput.trim();
+                  if (!techTags.includes(val)) {
+                    setTechTags([...techTags, val]);
+                  }
+                  setTagInput('');
+                }
+              }}
+              disabled={!tagInput.trim()}
+            >
+              Добавить
+            </AddButton>
+          </TechSection>
+        ) : (
+          <TechSection>
+            <TechTitle>Стек технологий</TechTitle>
+            <AccountTagsList>
+              {techTags.map(tag => (
+                <AccountTag key={tag}>#{tag}</AccountTag>
+              ))}
+            </AccountTagsList>
+          </TechSection>
+        )}
       </AccountCard>
     </AccountContainer>
   );
