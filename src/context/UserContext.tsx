@@ -29,7 +29,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   });
 
   // Загрузка профиля пользователя с бэка
-  const fetchUserProfile = async (userId: string) => {
+  const fetchUserProfile = async () => {
     try {
       // TODO: Заменить на реальный API endpoint
       // const response = await fetch(`/api/users/${userId}`);
@@ -43,6 +43,20 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       console.error("Ошибка загрузки профиля:", error);
     }
   };
+ // const fetchUserProfile = async (userId: string) => {
+ //    try {
+ //      // TODO: Заменить на реальный API endpoint
+ //      // const response = await fetch(`/api/users/${userId}`);
+ //      // const userData = await response.json();
+
+ //      const mockUserData: UserProfile = MOCK_USER;
+
+ //      setUser(mockUserData);
+ //      localStorage.setItem("currentUser", JSON.stringify(mockUserData));
+ //    } catch (error) {
+ //      console.error("Ошибка загрузки профиля:", error);
+ //    }
+ //  };
 
   // Обновление профиля пользователя
   const updateUserProfile = async (updates: Partial<UserProfile>) => {
@@ -86,3 +100,4 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
+
