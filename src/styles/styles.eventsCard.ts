@@ -67,7 +67,6 @@ export const EventInfo = styled.div<{ theme: string }>`
   background: ${(p) => (p.theme === "light" ? "#fff" : "#323232")};
   border-bottom-left-radius: 18px;
   border-bottom-right-radius: 18px;
-  height: 100px;
   position: relative;
   z-index: 1;
 `;
