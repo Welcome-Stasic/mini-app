@@ -6,8 +6,9 @@ import AccountPage from "../pages/AccountPage";
 import EventDetailPage from "../pages/EventDetail";
 import AppLayout from "../components/AppLayout";
 import type React from "react";
-import { useUser } from "../context/UserContext";
 import { ProtectedUser } from "./protectedUser";
+import { useStore } from "../store/storeProvider";
+import { observer } from "mobx-react-lite";
 
 interface IRoutes {
   path?: string;
@@ -39,18 +40,18 @@ export const privateRout: IRoutes[] = [
   { path: RouteName.ACCOUNT, component: AccountPage },
 ];
 
-export function AppRoutes() {
-  const { user } = useUser();
+const AppRoutes = observer(() => {
+  const { userStore } = useStore();
   return (
     <Routes>
       {publicRout.map((route) => (
         <Route key={route.path} path={route.path} Component={route.component} />
       ))}
-      {!user && (
+      {!userStore.user && (
         <Route path="*" element={<Navigate to={RouteName.LOGIN} replace />} />
       )}
 
-      {user && (
+      {userStore.user && (
         <Route
           element={
             <ProtectedUser>
@@ -70,4 +71,5 @@ export function AppRoutes() {
       <Route path="*" element={<Navigate to={RouteName.ALLEVENTS} replace />} />
     </Routes>
   );
-}
+});
+export default AppRoutes;

@@ -1,4 +1,3 @@
-import React from "react";
 import EventCard from "../components/EventCard";
 import type { EventItem } from "../types/events";
 import "./EventsByType.css";
@@ -85,4 +84,3 @@ function EventsByType({ type, events }: EventsByTypeProps) {
 }
 
 export default EventsByType;
-

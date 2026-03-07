@@ -1,23 +1,19 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import * as S from "../styles/styles.EventDetailPage";
+
 import type { EventItem } from "../types/events";
 import { fetchEventById } from "../api/events";
-import { useMyEvents } from "../context/MyEventsContext";
 import { fallbackEvents } from "../hooks/useFallBackEvents";
-import * as S from "../styles/styles.eventDetail";
+import { useStore } from "../store/storeProvider";
+import { observer } from "mobx-react-lite";
 
-const gradients: Record<string, string> = {
-  События: "linear-gradient(180deg, #0099FF, #FFFFFF)",
-  Олимпиада: "linear-gradient(180deg, #FF9500, #FFBD61)",
-  Конкурс: "linear-gradient(180deg, #7378FF, #ACAFFF)",
-  Стажировка: "linear-gradient(180deg, #787878, #161616)",
-  Вакансия: "linear-gradient(135deg, #87C0FF, #007AFF)",
-};
-
-function EventDetail() {
+const EventDetail = observer(() => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { addEvent, isEventAdded } = useMyEvents();
+  const { eventsStore } = useStore();
+  const { themeStore } = useStore();
+  const theme = themeStore.theme;
 
   const [eventItem, setEventItem] = useState<EventItem | undefined>(() =>
     fallbackEvents.find((e) => e.id === id),
@@ -30,38 +26,51 @@ function EventDetail() {
       try {
         const data = await fetchEventById(id);
         if (!cancelled && data) setEventItem(data);
-      } catch (_err) {}
+      } catch (_err) {
+        // фолбэк остаётся
+      }
     })();
     return () => {
       cancelled = true;
     };
   }, [id]);
 
+  const gradients: Record<string, string> = {
+    События: "linear-gradient(180deg, #0099FF, #FFFFFF)",
+    Олимпиада: "linear-gradient(180deg, #FF9500, #FFBD61)",
+    Конкурс: "linear-gradient(180deg, #7378FF, #ACAFFF)",
+    Стажировка: "linear-gradient(180deg, #787878, #161616)",
+    Вакансия: "linear-gradient(135deg, #87C0FF, #007AFF)",
+  };
+
   if (!eventItem) {
     return (
-      <S.NotFoundContainer>
-        <S.BackButton onClick={() => navigate(-1)}>Назад</S.BackButton>
-        <S.NotFoundMessage>Ивент не найден</S.NotFoundMessage>
-      </S.NotFoundContainer>
+      <S.Container theme={theme} style={{ padding: 16 }}>
+        <S.BackButton className="btn-event" onClick={() => navigate(-1)}>
+          Назад
+        </S.BackButton>
+        <S.NotFound>Ивент не найден</S.NotFound>
+      </S.Container>
     );
   }
 
-  const headerGradient =
+  const gradient =
     gradients[eventItem.type] || "linear-gradient(135deg, #787878, #161616)";
-  const isAdded = isEventAdded(eventItem.id);
 
   return (
-    <S.Container>
-      <S.Header background={headerGradient} />
+    <S.Container theme={theme}>
+      <S.Header gradient={gradient} />
       <S.Grid>
         <S.Card>
-          <S.Info>
+          <S.Info theme={theme}>
             <S.Title>{eventItem.title}</S.Title>
             <S.ChipsRow>
-              <S.Chip muted>c {eventItem.date}</S.Chip>
-              <S.Chip>{eventItem.type}</S.Chip>
+              <S.Chip theme={theme} muted>
+                c {eventItem.date}
+              </S.Chip>
+              <S.Chip theme={theme}>{eventItem.type}</S.Chip>
               {eventItem.tags?.map((tag) => (
-                <S.Chip key={tag} muted>
+                <S.Chip theme={theme} key={tag} muted>
                   {tag}
                 </S.Chip>
               ))}
@@ -76,24 +85,26 @@ function EventDetail() {
               завести полезные знакомства. Ждем вас на нашем мероприятии!
             </S.Description>
             <S.CtaButton
-              background={headerGradient}
-              disabled={isAdded}
+              gradient={gradient}
+              disabled={eventsStore.isEventAdded(eventItem.id)}
               onClick={() => {
-                if (!isAdded) {
-                  addEvent(eventItem);
+                if (!eventsStore.isEventAdded(eventItem.id)) {
+                  eventsStore.addEvent(eventItem);
                   alert('Событие добавлено в "Мои события"!');
                 } else {
                   alert("Вы уже участвуете в этом событии!");
                 }
               }}
             >
-              {isAdded ? "Уже участвуете" : "Участвовать"}
+              {eventsStore.isEventAdded(eventItem.id)
+                ? "Уже участвуете"
+                : "Участвовать"}
             </S.CtaButton>
           </S.Info>
         </S.Card>
       </S.Grid>
     </S.Container>
   );
-}
+});
 
 export default EventDetail;

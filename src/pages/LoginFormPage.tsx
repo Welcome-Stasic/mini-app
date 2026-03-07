@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../context/UserContext";
 import { IconEye, IconEyeOff } from "../icon/icons";
 import * as S from "../styles/styles.LoginFormPage";
 import {
@@ -9,12 +8,14 @@ import {
   MOCK_PASSWORD,
 } from "../hooks/useAuthorizade";
 import { RouteName } from "../router/routes";
+import { useStore } from "../store/storeProvider";
+import { observer } from "mobx-react-lite";
 
 const emailRegex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 const passwordRegex =
   /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~]{6,}$/;
 
-const LoginPage: React.FC = () => {
+const LoginPage: React.FC = observer(() => {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState(false);
@@ -23,7 +24,7 @@ const LoginPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isAuthError, setIsAuthError] = useState(false);
   const navigate = useNavigate();
-  const { fetchUserProfile } = useUser();
+  const { userStore } = useStore();
 
   const isFormFilled = login.trim() !== "" && password.trim() !== "";
 
@@ -60,7 +61,7 @@ const LoginPage: React.FC = () => {
 
     // Если валидация прошла, проверяем авторизацию
     if (login === MOCK_LOGIN && password === MOCK_PASSWORD) {
-      await fetchUserProfile(MOCK_USERID);
+      await userStore.fetchUserProfile(MOCK_USERID);
       navigate(RouteName.ACCOUNT);
     } else {
       setIsAuthError(true);
@@ -169,6 +170,6 @@ const LoginPage: React.FC = () => {
       </S.Form>
     </S.LoginContainer>
   );
-};
+});
 
 export default LoginPage;

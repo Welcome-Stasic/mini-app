@@ -2,17 +2,18 @@ import { useNavigate, useLocation } from "react-router-dom";
 import * as S from "../styles/styles.BottomNav";
 import { IconChannel, IconAddHome, IconPerson } from "../icon/icons";
 import { RouteName } from "../router/routes";
-import { useTheme } from "../context/ThemeContext";
+import { useStore } from "../store/storeProvider";
+import { observer } from "mobx-react-lite";
 
-function BottomNav() {
-  const { theme } = useTheme();
+const BottomNav = observer(() => {
+  const { themeStore } = useStore();
   const navigate = useNavigate();
   const location = useLocation();
 
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <S.BottomNav theme={theme}>
+    <S.BottomNav theme={themeStore.theme}>
       <S.NavItem
         onClick={() => navigate(RouteName.ALLEVENTS)}
         active={isActive(RouteName.ALLEVENTS)}
@@ -46,6 +47,6 @@ function BottomNav() {
       </S.NavItem>
     </S.BottomNav>
   );
-}
+});
 
 export default BottomNav;
