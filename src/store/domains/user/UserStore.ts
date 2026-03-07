@@ -35,7 +35,7 @@ class UserStore {
   }
 
   // async fetchUserProfile(userId: string) {
-  async fetchUserProfile() {
+  async fetchUserProfile(MOCK_USERID) {
     this.loading = true;
     this.error = null;
 

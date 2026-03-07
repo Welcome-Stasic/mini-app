@@ -61,7 +61,7 @@ const LoginPage: React.FC = observer(() => {
 
     // Если валидация прошла, проверяем авторизацию
     if (login === MOCK_LOGIN && password === MOCK_PASSWORD) {
-      await userStore.fetchUserProfile(MOCK_USERID);
+      await userStore.fetchUserProfile();
       navigate(RouteName.ACCOUNT);
     } else {
       setIsAuthError(true);
