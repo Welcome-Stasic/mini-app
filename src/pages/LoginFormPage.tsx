@@ -2,11 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IconEye, IconEyeOff } from "../icon/icons";
 import * as S from "../styles/styles.LoginFormPage";
-import {
-  MOCK_USERID,
-  MOCK_LOGIN,
-  MOCK_PASSWORD,
-} from "../hooks/useAuthorizade";
+import { MOCK_LOGIN, MOCK_PASSWORD } from "../hooks/useAuthorizade";
 import { RouteName } from "../router/routes";
 import { useStore } from "../store/storeProvider";
 import { observer } from "mobx-react-lite";

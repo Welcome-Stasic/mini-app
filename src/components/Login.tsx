@@ -7,7 +7,6 @@ import { css } from "@emotion/react";
 import {
   MOCK_LOGIN,
   MOCK_PASSWORD,
-  MOCK_USERID,
 } from "../hooks/useAuthorizade";
 import { RouteName } from "../router/routes";
 import { useStore } from "../store/storeProvider";

@@ -34,8 +34,7 @@ class UserStore {
     return Boolean(this.user);
   }
 
-  // async fetchUserProfile(userId: string) {
-  async fetchUserProfile(MOCK_USERID) {
+  async fetchUserProfile() {
     this.loading = true;
     this.error = null;
 
