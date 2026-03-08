@@ -5,7 +5,6 @@ type Theme = "light" | "dark";
 
 class ThemeStore {
   theme: Theme = "light";
-  private _isTelegramAvailable = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -13,58 +12,48 @@ class ThemeStore {
   }
 
   private init() {
-    if (this.checkTelegram()) {
-      this.initTelegram();
+    if (typeof window !== "undefined" && window.Telegram?.WebApp) {
+      const tg = window.Telegram.WebApp;
+      this.theme = tg.colorScheme === "dark" ? "dark" : "light";
+      this.applyTheme();
+      tg.onEvent("themeChanged", () => {
+        this.theme = tg.colorScheme === "dark" ? "dark" : "light";
+        this.applyTheme();
+      });
+      tg.ready();
     } else {
-      this.loadTheme();
+      const saved = storage.get<Theme>("theme", "light");
+      this.theme = saved;
+      this.applyTheme();
     }
-  }
-
-  private checkTelegram(): boolean {
-    if (typeof window === "undefined") return false;
-    const hasTelegram = !!(window as any).Telegram?.WebApp;
-    this._isTelegramAvailable = hasTelegram;
-    return hasTelegram;
-  }
-
-  private initTelegram() {
-    const tg = (window as any).Telegram.WebApp;
-    this.setTheme(tg.colorScheme);
-    tg.onEvent("themeChanged", () => {
-      this.setTheme(tg.colorScheme);
-    });
-    tg.ready();
-  }
-
-  private loadTheme() {
-    const saved = storage.get<Theme>("theme", "light");
-    this.theme = saved;
-    this.applyTheme();
-  }
-
-  private saveTheme() {
-    if (this._isTelegramAvailable) return;
-    storage.set("theme", this.theme);
   }
 
   private applyTheme() {
     document.documentElement.setAttribute("data-theme", this.theme);
   }
 
-  setTheme(theme: Theme) {
+  private saveTheme() {
+    if (!window.Telegram?.WebApp) {
+      storage.set("theme", this.theme);
+    }
+  }
+
+  setTheme = (theme: Theme) => {
     this.theme = theme;
     this.applyTheme();
     this.saveTheme();
-  }
+  };
 
-  toggleTheme() {
-    if (this._isTelegramAvailable) return;
+  toggleTheme = () => {
+    console.log("toggleTheme called, current theme:", this.theme);
+    if (window.Telegram?.WebApp) {
+      console.log(
+        "Inside Telegram, theme is managed by system. Not toggling manually.",
+      );
+      return;
+    }
     this.setTheme(this.theme === "light" ? "dark" : "light");
-  }
-
-  get isTelegramAvailable() {
-    return this._isTelegramAvailable;
-  }
+  };
 }
 
 export default ThemeStore;
