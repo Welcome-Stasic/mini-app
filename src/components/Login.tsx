@@ -237,7 +237,7 @@ const LoginForm: React.FC = observer(() => {
       // Пока используем моковый userId
 
       // Загружаем профиль пользователя с бэка
-      await userStore.fetchUserProfile(MOCK_USERID);
+      await userStore.fetchUserProfile();
       navigate(RouteName.ACCOUNT);
     } else {
       setIsAuthError(true);
