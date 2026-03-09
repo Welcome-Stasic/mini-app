@@ -4,10 +4,8 @@ import { observer } from "mobx-react-lite";
 import { IconEye, IconEyeOff } from "../icon/icons";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
-import {
-  MOCK_LOGIN,
-  MOCK_PASSWORD,
-} from "../hooks/useAuthorizade";
+import { MOCK_LOGIN, MOCK_PASSWORD } from "../hooks/Authorizade";
+import { MOCK_USERID } from "../hooks/Authorizade";
 import { RouteName } from "../router/routes";
 import { useStore } from "../store/storeProvider";
 
@@ -239,7 +237,7 @@ const LoginForm: React.FC = observer(() => {
       // Пока используем моковый userId
 
       // Загружаем профиль пользователя с бэка
-      await userStore.fetchUserProfile();
+      await userStore.fetchUserProfile(MOCK_USERID);
       navigate(RouteName.ACCOUNT);
     } else {
       setIsAuthError(true);

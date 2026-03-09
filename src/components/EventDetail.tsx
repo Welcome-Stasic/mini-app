@@ -4,14 +4,14 @@ import * as S from "../styles/styles.EventDetailPage";
 
 import type { EventItem } from "../types/events";
 import { fetchEventById } from "../api/events";
-import { fallbackEvents } from "../hooks/useFallBackEvents";
+import { fallbackEvents } from "../hooks/FallBackEvents";
 import { useStore } from "../store/storeProvider";
 import { observer } from "mobx-react-lite";
 
 const EventDetail = observer(() => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { eventsStore } = useStore();
+  const { myEventsStore } = useStore();
   const { themeStore } = useStore();
   const theme = themeStore.theme;
 
@@ -86,17 +86,17 @@ const EventDetail = observer(() => {
             </S.Description>
             <S.CtaButton
               gradient={gradient}
-              disabled={eventsStore.isEventAdded(eventItem.id)}
+              disabled={myEventsStore.isEventAdded(eventItem.id)}
               onClick={() => {
-                if (!eventsStore.isEventAdded(eventItem.id)) {
-                  eventsStore.addEvent(eventItem);
+                if (!myEventsStore.isEventAdded(eventItem.id)) {
+                  myEventsStore.addEvent(eventItem);
                   alert('Событие добавлено в "Мои события"!');
                 } else {
                   alert("Вы уже участвуете в этом событии!");
                 }
               }}
             >
-              {eventsStore.isEventAdded(eventItem.id)
+              {myEventsStore.isEventAdded(eventItem.id)
                 ? "Уже участвуете"
                 : "Участвовать"}
             </S.CtaButton>

@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 import type { EventItem } from "../../../types/events";
 import { storage } from "../../lib/localStorage";
 
-class EventsStore {
+class MyEventsStore {
   myEvents: EventItem[] = [];
   loading: boolean = false;
   error: string | null = null;
@@ -33,4 +33,4 @@ class EventsStore {
   };
 }
 
-export default EventsStore;
+export default MyEventsStore;

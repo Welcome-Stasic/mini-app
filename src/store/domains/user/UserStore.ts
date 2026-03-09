@@ -1,7 +1,7 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { storage } from "../../lib/localStorage";
 import type { UserProfile } from "../../../types/user";
-import { MOCK_USER } from "../../../hooks/useAuthorizade";
+import { MOCK_USER } from "../../../hooks/Authorizade";
 
 class UserStore {
   user: UserProfile | null = null;
@@ -34,7 +34,7 @@ class UserStore {
     return Boolean(this.user);
   }
 
-  async fetchUserProfile() {
+  async fetchUserProfile(userId: string) {
     this.loading = true;
     this.error = null;
 

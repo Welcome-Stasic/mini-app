@@ -8,7 +8,7 @@ import { observer } from "mobx-react-lite";
 import { useStore } from "../store/storeProvider";
 
 const MyEvents = observer(() => {
-  const { eventsStore } = useStore();
+  const { myEventsStore } = useStore();
 
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<"current" | "past">("current");
@@ -72,19 +72,19 @@ const MyEvents = observer(() => {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  const currentEvents = eventsStore.myEvents.filter((event) => {
+  const currentEvents = myEventsStore.myEvents.filter((event) => {
     const eventDate = parseEventDate(event.date);
     return eventDate >= today;
   });
 
-  const pastEvents = eventsStore.myEvents.filter((event) => {
+  const pastEvents = myEventsStore.myEvents.filter((event) => {
     const eventDate = parseEventDate(event.date);
     return eventDate < today;
   });
 
   const displayEvents = activeTab === "current" ? currentEvents : pastEvents;
 
-  if (eventsStore.myEvents.length === 0) {
+  if (myEventsStore.myEvents.length === 0) {
     return (
       <div className="my-events-container">
         <div

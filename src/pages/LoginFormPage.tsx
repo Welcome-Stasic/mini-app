@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IconEye, IconEyeOff } from "../icon/icons";
 import * as S from "../styles/styles.LoginFormPage";
-import { MOCK_LOGIN, MOCK_PASSWORD } from "../hooks/useAuthorizade";
+import { MOCK_USERID, MOCK_LOGIN, MOCK_PASSWORD } from "../hooks/Authorizade";
 import { RouteName } from "../router/routes";
 import { useStore } from "../store/storeProvider";
 import { observer } from "mobx-react-lite";
@@ -57,7 +57,7 @@ const LoginPage: React.FC = observer(() => {
 
     // Если валидация прошла, проверяем авторизацию
     if (login === MOCK_LOGIN && password === MOCK_PASSWORD) {
-      await userStore.fetchUserProfile();
+      await userStore.fetchUserProfile(MOCK_USERID);
       navigate(RouteName.ACCOUNT);
     } else {
       setIsAuthError(true);

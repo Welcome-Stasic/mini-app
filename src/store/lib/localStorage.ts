@@ -3,7 +3,7 @@ export const storage = {
     try {
       const item = localStorage.getItem(key);
       return item ? JSON.parse(item) : defaultValue;
-    } catch (error) {
+    } catch {
       return defaultValue;
     }
   },
@@ -11,18 +11,18 @@ export const storage = {
   set: <T>(key: string, value: T): void => {
     try {
       localStorage.setItem(key, JSON.stringify(value));
-    } catch (error) {}
+    } catch {}
   },
 
   remove: (key: string): void => {
     try {
       localStorage.removeItem(key);
-    } catch (error) {}
+    } catch {}
   },
 
   clear: (): void => {
     try {
       localStorage.clear();
-    } catch (error) {}
+    } catch {}
   },
 };

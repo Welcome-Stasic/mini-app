@@ -8,17 +8,25 @@ import {
   IconCalendar,
 } from "../icon/icons";
 import type { EventItem } from "../types/events";
-import { fetchAllEvents } from "../api/events";
 import * as S from "../styles/styles.events";
-import { mockEvents } from "../hooks/useEventsDate";
-import { bannerSlides } from "../hooks/useBannerDate";
+import { bannerSlides } from "../hooks/BannerDate";
 import type { IconBaseProps } from "../types/colors";
 import { EventList } from "../components/EventList";
 import { toTranslit } from "../utils/toTranslit";
 import { useNavigate, useParams } from "react-router-dom";
 import { RouteName } from "../router/routes";
+import { useStore } from "../store/storeProvider";
+import { observer } from "mobx-react-lite";
 
-function AllEvents() {
+const AllEvents = observer(() => {
+  const { eventsCatalogStore } = useStore();
+
+  useEffect(() => {
+    eventsCatalogStore.loadEvents();
+  }, [eventsCatalogStore]);
+
+  const events = eventsCatalogStore.events;
+
   const navigate = useNavigate();
   const { type: slug } = useParams<{ type?: string }>();
 
@@ -43,23 +51,6 @@ function AllEvents() {
 
   const slugToType = useMemo(() => {
     return Object.fromEntries(allTypes.map((t) => [toTranslit(t), t]));
-  }, []);
-
-  const [events, setEvents] = useState<EventItem[]>(mockEvents);
-
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      try {
-        const apiEvents = await fetchAllEvents();
-        if (!cancelled && Array.isArray(apiEvents) && apiEvents.length) {
-          setEvents(apiEvents);
-        }
-      } catch (_err) {}
-    })();
-    return () => {
-      cancelled = true;
-    };
   }, []);
 
   const eventsByType: Record<string, EventItem[]> = {};
@@ -177,6 +168,6 @@ function AllEvents() {
       />
     </S.AllEventsContainer>
   );
-}
+});
 
 export default AllEvents;
