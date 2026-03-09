@@ -13,7 +13,7 @@ class ThemeStore {
   }
 
   private init() {
-    if (window.Telegram?.WebApp) {
+    if (window.Telegram?.WebApp.initData) {
       this.isTelegram = true;
       const tg = window.Telegram.WebApp;
 
