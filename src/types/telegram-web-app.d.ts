@@ -5,11 +5,11 @@ interface WebAppUser {
   first_name: string;
   last_name?: string;
   username?: string;
-  photo_url?: string; // ← сюда приходит аватар
+  photo_url?: string;
 }
 
 interface WebAppInitData {
-  user?: WebAppUser; // данные пользователя
+  user?: WebAppUser;
 }
 
 declare global {
