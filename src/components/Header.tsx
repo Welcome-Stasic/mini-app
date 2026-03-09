@@ -17,9 +17,11 @@ const Header = observer(
 
     return (
       <S.HeaderContainer theme={theme}>
-        <button onClick={themeStore.toggleTheme}>
-          {theme === "light" ? "🌙" : "☀️"}
-        </button>
+        {!themeStore.isTelegram && (
+          <button onClick={themeStore.toggleTheme}>
+            {theme === "light" ? "🌙" : "☀️"}
+          </button>
+        )}
         {showClose && (
           <S.CloseButton theme={theme} onClick={() => navigate(-1)}>
             ×

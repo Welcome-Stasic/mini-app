@@ -13,18 +13,17 @@ class ThemeStore {
   }
 
   private init() {
-    if (typeof window !== "undefined" && window.Telegram?.WebApp) {
+    if (window.Telegram?.WebApp) {
       this.isTelegram = true;
       const tg = window.Telegram.WebApp;
 
-      this.theme = tg.colorScheme === "dark" ? "dark" : "light";
+      this.theme = tg.colorScheme === "light" ? "light" : "dark";
       this.applyTheme();
 
       tg.onEvent("themeChanged", () => {
         runInAction(() => {
           this.theme = tg.colorScheme === "dark" ? "dark" : "light";
           this.applyTheme();
-          console.log("Telegram theme changed to", this.theme);
         });
       });
 
@@ -54,10 +53,7 @@ class ThemeStore {
   };
 
   toggleTheme = () => {
-    if (this.isTelegram) {
-      console.log("Inside Telegram – theme is system-controlled");
-      return;
-    }
+    if (this.isTelegram) return;
     this.setTheme(this.theme === "light" ? "dark" : "light");
   };
 }
