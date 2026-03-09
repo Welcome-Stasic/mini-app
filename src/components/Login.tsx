@@ -5,7 +5,6 @@ import { IconEye, IconEyeOff } from "../icon/icons";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import { MOCK_LOGIN, MOCK_PASSWORD } from "../hooks/Authorizade";
-import { MOCK_USERID } from "../hooks/Authorizade";
 import { RouteName } from "../router/routes";
 import { useStore } from "../store/storeProvider";
 
