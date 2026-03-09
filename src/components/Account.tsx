@@ -126,7 +126,14 @@ const Account = observer(() => {
           </S.AccountHeaderActions>
 
           <S.AccountAvatarWrapper>
-            <S.AccountAvatar src={user.avatarUrl} alt={user.fullName} />
+            <S.AccountAvatar
+              src={
+                window.Telegram?.WebApp.photo_url
+                  ? window.Telegram?.WebApp.photo_url
+                  : user.avatarUrl
+              }
+              alt={user.fullName}
+            />
           </S.AccountAvatarWrapper>
 
           {isEditing && (
