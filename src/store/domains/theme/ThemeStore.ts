@@ -1,10 +1,11 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 import { storage } from "../../lib/localStorage";
 
 type Theme = "light" | "dark";
 
 class ThemeStore {
   theme: Theme = "light";
+  isTelegram: boolean = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -13,15 +14,23 @@ class ThemeStore {
 
   private init() {
     if (typeof window !== "undefined" && window.Telegram?.WebApp) {
+      this.isTelegram = true;
       const tg = window.Telegram.WebApp;
+
       this.theme = tg.colorScheme === "dark" ? "dark" : "light";
       this.applyTheme();
+
       tg.onEvent("themeChanged", () => {
-        this.theme = tg.colorScheme === "dark" ? "dark" : "light";
-        this.applyTheme();
+        runInAction(() => {
+          this.theme = tg.colorScheme === "dark" ? "dark" : "light";
+          this.applyTheme();
+          console.log("Telegram theme changed to", this.theme);
+        });
       });
+
       tg.ready();
     } else {
+      this.isTelegram = false;
       const saved = storage.get<Theme>("theme", "light");
       this.theme = saved;
       this.applyTheme();
@@ -33,7 +42,7 @@ class ThemeStore {
   }
 
   private saveTheme() {
-    if (!window.Telegram?.WebApp) {
+    if (!this.isTelegram) {
       storage.set("theme", this.theme);
     }
   }
@@ -45,11 +54,8 @@ class ThemeStore {
   };
 
   toggleTheme = () => {
-    console.log("toggleTheme called, current theme:", this.theme);
-    if (window.Telegram?.WebApp) {
-      console.log(
-        "Inside Telegram, theme is managed by system. Not toggling manually.",
-      );
+    if (this.isTelegram) {
+      console.log("Inside Telegram – theme is system-controlled");
       return;
     }
     this.setTheme(this.theme === "light" ? "dark" : "light");
