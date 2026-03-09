@@ -1,12 +1,24 @@
 export {};
 
+interface WebAppUser {
+  id: number;
+  first_name: string;
+  last_name?: string;
+  username?: string;
+  photo_url?: string; // ← сюда приходит аватар
+}
+
+interface WebAppInitData {
+  user?: WebAppUser; // данные пользователя
+}
+
 declare global {
   interface Window {
     Telegram?: {
       WebApp: {
         colorScheme: "light" | "dark";
         initData: string;
-        photo_url: string;
+        initDataUnsafe: WebAppInitData;
         onEvent: (eventType: string, callback: () => void) => void;
         ready: () => void;
       };

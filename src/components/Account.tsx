@@ -11,6 +11,7 @@ import { observer } from "mobx-react-lite";
 const Account = observer(() => {
   const { userStore } = useStore();
   const user = userStore.user;
+  const tgPhotoUrl = window.Telegram?.WebApp?.initDataUnsafe?.user?.photo_url;
 
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -127,11 +128,7 @@ const Account = observer(() => {
 
           <S.AccountAvatarWrapper>
             <S.AccountAvatar
-              src={
-                window.Telegram?.WebApp.photo_url
-                  ? window.Telegram?.WebApp.photo_url
-                  : user.avatarUrl
-              }
+              src={tgPhotoUrl || user.avatarUrl}
               alt={user.fullName}
             />
           </S.AccountAvatarWrapper>
