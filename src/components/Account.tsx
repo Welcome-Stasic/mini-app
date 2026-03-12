@@ -102,40 +102,40 @@ const Account = observer(() => {
 
   const handleSave = () => {
     if (!data) return;
-    const reverseDirectionMap: Record<string, number> = {
-      Frontend: 0,
-      Backend: 1,
-      "UX/UI": 2,
-    };
+    // const reverseDirectionMap: Record<string, number> = {
+    //   Frontend: 0,
+    //   Backend: 1,
+    //   "UX/UI": 2,
+    // };
 
-    const nameParts = form.fullName.split(" ").filter(Boolean);
+    // const nameParts = form.fullName.split(" ").filter(Boolean);
 
-    const [surname = "", name = "", patronymic = ""] = nameParts;
+    // const [surname = "", name = "", patronymic = ""] = nameParts;
 
-    const directionNumber = form.direction
-      ? reverseDirectionMap[form.direction]
-      : undefined;
+    // const directionNumber = form.direction
+    //   ? reverseDirectionMap[form.direction]
+    //   : undefined;
 
-    let courseNumber: number | undefined;
-    if (form.course) {
-      const match = form.course.match(/\d+/);
-      courseNumber = match ? parseInt(match[0], 10) : undefined;
-    }
+    // let courseNumber: number | undefined;
+    // if (form.course) {
+    //   const match = form.course.match(/\d+/);
+    //   courseNumber = match ? parseInt(match[0], 10) : undefined;
+    // }
 
-    const updates = {
-      name: name || data.name,
-      surname: surname || data.surname,
-      patronymic: patronymic || data.patronymic,
-      username: form.username || data.username,
-      email: form.email || data.email,
-      description: form.description || data.description,
-      age: form.age ? Number(form.age) : data.age,
-      course: courseNumber ?? data.course,
-      direction: directionNumber ?? data.direction,
-      skills: techTags.length ? techTags : data.skills,
-      telegramLink: form.telegramLink || data.telegramLink,
-      portfolioLink: form.portfolioLink || data.portfolioLink,
-    };
+    // const updates = {
+    //   name: name || data.name,
+    //   surname: surname || data.surname,
+    //   patronymic: patronymic || data.patronymic,
+    //   username: form.username || data.username,
+    //   email: form.email || data.email,
+    //   description: form.description || data.description,
+    //   age: form.age ? Number(form.age) : data.age,
+    //   course: courseNumber ?? data.course,
+    //   direction: directionNumber ?? data.direction,
+    //   skills: techTags.length ? techTags : data.skills,
+    //   telegramLink: form.telegramLink || data.telegramLink,
+    //   portfolioLink: form.portfolioLink || data.portfolioLink,
+    // };
 
     handleEditEnd();
   };
