@@ -10,6 +10,7 @@ import { ProtectedUser } from "./protectedUser";
 import { useStore } from "../store/storeProvider";
 import { observer } from "mobx-react-lite";
 import { useUser } from "../hooks/useUser";
+import { Loader } from "../components/loader";
 
 interface IRoutes {
   path?: string;
@@ -29,11 +30,6 @@ export const publicRout: IRoutes[] = [
   { path: RouteName.LOGIN, component: LoginFormPage },
 ];
 export const privateRout: IRoutes[] = [
-  {
-    path: RouteName.LOGIN,
-    component: () => <Navigate to={RouteName.ALLEVENTS} replace />,
-  },
-
   { path: RouteName.ALLEVENTS, component: AllEventsPage },
   { path: RouteName.ALLEVENTSTYPE, component: AllEventsPage },
   { path: RouteName.MYIVENTS, component: MyEventsPage },
@@ -45,37 +41,48 @@ const AppRoutes = observer(() => {
   const { userStore } = useStore();
   const { isLoading } = useUser();
 
-  const isAuth = !!userStore.user;
+  const isAuth = userStore.user !== null;
 
-  if (isLoading) return;
+  if (isLoading) return <Loader />;
 
   return (
     <Routes>
-      {publicRout.map((route) => (
-        <Route key={route.path} path={route.path} Component={route.component} />
-      ))}
       {!isAuth && (
-        <Route path="*" element={<Navigate to={RouteName.LOGIN} replace />} />
-      )}
-
-      {isAuth && (
-        <Route
-          element={
-            <ProtectedUser>
-              <AppLayout />
-            </ProtectedUser>
-          }
-        >
-          {privateRout.map((route) => (
+        <>
+          {publicRout.map((route) => (
             <Route
               key={route.path}
               path={route.path}
               Component={route.component}
             />
           ))}
-        </Route>
+          <Route path="*" element={<Navigate to={RouteName.LOGIN} replace />} />
+        </>
       )}
-      <Route path="*" element={<Navigate to={RouteName.ALLEVENTS} replace />} />
+
+      {isAuth && (
+        <>
+          <Route
+            element={
+              <ProtectedUser>
+                <AppLayout />
+              </ProtectedUser>
+            }
+          >
+            {privateRout.map((route) => (
+              <Route
+                key={route.path}
+                path={route.path}
+                Component={route.component}
+              />
+            ))}
+          </Route>
+          <Route
+            path="*"
+            element={<Navigate to={RouteName.ALLEVENTS} replace />}
+          />
+        </>
+      )}
     </Routes>
   );
 });

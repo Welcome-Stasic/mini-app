@@ -60,3 +60,28 @@ export const MenuButton = styled.button<{ theme: string }>`
   justify-content: center;
   padding: 0;
 `;
+export const Menu = styled.div<{ theme: string }>`
+  border: 1px solid ${(p) => (p.theme === "light" ? "#d0d0d0" : "#ffffff5e")};
+  position: absolute;
+  top: 50px;
+  right: 10px;
+  min-width: 150px;
+  background: ${(p) => (p.theme === "light" ? "#fbfbfb" : "#212121")};
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  z-index: 1000;
+`;
+
+export const MenuItem = styled.div<{ theme: string }>`
+  padding: 12px 16px;
+  font-size: 16px;
+  color: ${(p) => (p.theme === "light" ? "#333333" : "#ffffff")};
+  cursor: pointer;
+  transition: background 0.2s;
+  text-align: left;
+
+  &:hover {
+    background: ${(p) => (p.theme === "light" ? "#f0f0f0" : "#2c2c2e")};
+  }
+`;

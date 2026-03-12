@@ -33,7 +33,7 @@ class UserStore {
 
   clearUser = () => {
     this.user = null;
-    this.saveUser();
+    storage.remove("currentUser");
   };
 }
 

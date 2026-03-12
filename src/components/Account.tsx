@@ -6,6 +6,7 @@ import { IconCop, IconCopy, IconEdit } from "../icon/icons.tsx";
 import { RouteName } from "../router/routes.tsx";
 import { observer } from "mobx-react-lite";
 import { useUser } from "../hooks/useUser.tsx";
+import { Loader } from "./loader.tsx";
 
 const directionName: Record<number, string> = {
   0: "Frontend",
@@ -140,10 +141,7 @@ const Account = observer(() => {
     handleEditEnd();
   };
 
-  if (isLoading) return <div>Загрузка...</div>;
-  if (!data) {
-    return <div style={{ padding: 16 }}>Вы не авторизованы.</div>;
-  }
+  if (isLoading) return <Loader />;
 
   return (
     <S.AccountContainer isEditing={isEditing}>

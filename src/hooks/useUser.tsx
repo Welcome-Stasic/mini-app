@@ -9,10 +9,18 @@ export const useUser = () => {
   return useQuery({
     queryKey: userKeys.profile(),
     queryFn: async () => {
-      const user = await getCurrentUser();
-      userStore.setUser(user);
-      return user;
+      try {
+        const user = await getCurrentUser();
+        userStore.setUser(user);
+        return user;
+      } catch (error) {
+        userStore.clearUser();
+        throw error;
+      }
     },
+    staleTime: 0,
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
     retry: false,
   });
 };
