@@ -3,10 +3,8 @@ import type { AxiosResponse } from "axios";
 import type { AxiosError } from "axios";
 import type { IApiResponse } from "./types/base";
 
-const BASE_URL = "http://62c8d468f852.vps.myjino.ru:49196";
-
 export const apiClient = axios.create({
-  baseURL: `${BASE_URL}/api`,
+  baseURL: `/api`,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
