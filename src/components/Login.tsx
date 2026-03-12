@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { IconEye, IconEyeOff } from "../icon/icons";
 import { RouteName } from "../router/routes";
-import { useSignIn } from "../hooks/useAuth";
+import { useAuth } from "../hooks/useAuth";
 import * as S from "../styles/styles.LoginFormPage";
 
 const emailRegex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
@@ -12,7 +12,7 @@ const emailRegex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 const passwordRegex = /^.{4,}$/;
 
 const LoginForm: React.FC = observer(() => {
-  const signIn = useSignIn();
+  const signIn = useAuth();
   const navigate = useNavigate();
 
   const [login, setLogin] = useState("");
@@ -156,7 +156,8 @@ const LoginForm: React.FC = observer(() => {
         {/* Сообщение об ошибке авторизации */}
         {authError && (
           <S.InputHint>
-            {authError.message && "Неверный логин или пароль"}
+            {/* {authError.message && "Неверный логин или пароль"} */}
+            {authError.message}
           </S.InputHint>
         )}
 

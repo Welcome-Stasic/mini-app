@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useSignOut } from "../hooks/useLogOut";
 import { RouteName } from "../router/routes";
 import { useState } from "react";
+import { Loader } from "./loader";
 
 interface HeaderProps {
   title: string;
@@ -22,10 +23,12 @@ const Header = observer(({ title, showClose = true }: HeaderProps) => {
       onSuccess: () => {
         navigate(RouteName.LOGIN);
       },
+      onError: () => {
+        navigate(RouteName.LOGIN);
+      },
     });
-    navigate(RouteName.LOGIN);
   };
-
+  if (signOut.isPending) return <Loader />;
   return (
     <S.HeaderContainer theme={theme}>
       {!themeStore.isTelegram && (

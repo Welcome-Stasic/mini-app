@@ -11,11 +11,14 @@ export const useSignOut = () => {
     mutationFn: API.auth.signOut,
     onSuccess: async () => {
       userStore.clearUser();
-      await queryClient.invalidateQueries({ queryKey: userKeys.profile() });
       queryClient.removeQueries({ queryKey: userKeys.profile() });
+      queryClient.cancelQueries({ queryKey: userKeys.all });
     },
     onError: (error) => {
       console.error(error);
+      userStore.clearUser();
+      queryClient.removeQueries({ queryKey: userKeys.profile() });
+      queryClient.cancelQueries({ queryKey: userKeys.all });
     },
   });
 };
