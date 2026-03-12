@@ -9,6 +9,7 @@ import type React from "react";
 import { ProtectedUser } from "./protectedUser";
 import { useStore } from "../store/storeProvider";
 import { observer } from "mobx-react-lite";
+import { useUser } from "../hooks/useUser";
 
 interface IRoutes {
   path?: string;
@@ -42,16 +43,22 @@ export const privateRout: IRoutes[] = [
 
 const AppRoutes = observer(() => {
   const { userStore } = useStore();
+  const { isLoading } = useUser();
+
+  const isAuth = !!userStore.user;
+
+  if (isLoading) return;
+
   return (
     <Routes>
       {publicRout.map((route) => (
         <Route key={route.path} path={route.path} Component={route.component} />
       ))}
-      {!userStore.user && (
+      {!isAuth && (
         <Route path="*" element={<Navigate to={RouteName.LOGIN} replace />} />
       )}
 
-      {userStore.user && (
+      {isAuth && (
         <Route
           element={
             <ProtectedUser>

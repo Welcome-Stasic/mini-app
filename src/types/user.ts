@@ -1,9 +1,15 @@
 export interface UserProfile {
+  portfolioLink: string;
+  patronymic: string;
+  surname: string;
+  name: string;
+  telegramLink: string;
+  description: string;
   id: string;
   fullName: string;
   age: number;
-  direction: string; // например: Frontend
-  course: string; // например: 2 курс
+  direction: number; // например: Frontend
+  course?: string; // например: 2 курс
   avatarUrl?: string;
   website?: string;
   username: string;

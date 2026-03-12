@@ -1,16 +1,20 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "../styles/styles.AccountPage.ts";
 import { IconCop, IconCopy, IconEdit } from "../icon/icons.tsx";
 
-import type { UserProfile } from "../types/user";
 import { RouteName } from "../router/routes.tsx";
-import { useStore } from "../store/storeProvider.tsx";
 import { observer } from "mobx-react-lite";
+import { useUser } from "../hooks/useUser.tsx";
+
+const directionName: Record<number, string> = {
+  0: "Frontend",
+  1: "Backend",
+  2: "UX/UI",
+};
 
 const Account = observer(() => {
-  const { userStore } = useStore();
-  const user = userStore.user;
+  const { data, isLoading } = useUser();
   const tgPhotoUrl = window.Telegram?.WebApp?.initDataUnsafe?.user?.photo_url;
 
   const navigate = useNavigate();
@@ -21,23 +25,21 @@ const Account = observer(() => {
   const [focusedField, setFocusedField] = useState<string | null>(null);
 
   const [form, setForm] = useState({
-    fullName: user?.fullName ?? "",
-    age: String(user?.age ?? ""),
-    course: user?.course ?? "",
-    website: user?.website ?? "",
-    username: user?.username ?? "",
-    email: user?.email ?? "",
-    phone: user?.phone ?? "",
-    about: user?.about ?? "",
-    techStack: (user?.techStack ?? []).join(", "),
+    fullName: "",
+    age: "",
+    phone: "",
+    course: "",
+    direction: "",
+    telegramLink: "",
+    portfolioLink: "",
+    username: "",
+    email: "",
+    description: "",
+    skills: "",
   });
 
-  const [directionTags, setDirectionTags] = useState<string[]>(
-    user?.direction?.split(/[,;/]\s*/).filter(Boolean) ?? ["Frontend"],
-  );
-
-  const [techTags, setTechTags] = useState<string[]>(user?.techStack ?? []);
-
+  const [directionTags, setDirectionTags] = useState<string[]>([]);
+  const [techTags, setTechTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState("");
 
   const AVAILABLE_DIRECTIONS = ["Frontend", "Backend", "UX/UI"] as const;
@@ -45,6 +47,38 @@ const Account = observer(() => {
   const updateField = <K extends keyof typeof form>(key: K, value: string) => {
     setForm((prev) => ({ ...prev, [key]: value }));
   };
+
+  useEffect(() => {
+    if (data && !isEditing) {
+      let directionStr = "";
+      if (typeof data.direction === "number") {
+        directionStr = directionName[data.direction] ?? "";
+      }
+      const fullName = [data.surname, data.name, data.patronymic]
+        .filter(Boolean)
+        .join(" ");
+
+      const skillsStr = Array.isArray(data.skills)
+        ? data.skills.join(", ")
+        : "";
+
+      setForm({
+        fullName: fullName,
+        age: String(data.age ?? ""),
+        course: String(data.course ?? ""),
+        phone: "+7(922)123-12-12",
+        direction: directionStr,
+        telegramLink: data.telegramLink ?? "",
+        portfolioLink: data.portfolioLink ?? "",
+        username: data.username ?? "",
+        email: data.email ?? "",
+        description: data.description ?? "",
+        skills: skillsStr,
+      });
+      setDirectionTags(directionStr ? [directionStr] : []);
+      setTechTags(data.skills ?? []);
+    }
+  }, [data, isEditing]);
 
   const handleEditStart = () => {
     setIsEditing(true);
@@ -64,44 +98,50 @@ const Account = observer(() => {
 
   const handleCancel = () => {
     handleEditEnd();
-    setForm({
-      fullName: user?.fullName ?? "",
-      age: String(user?.age ?? ""),
-      course: user?.course ?? "",
-      website: user?.website ?? "",
-      username: user?.username ?? "",
-      email: user?.email ?? "",
-      phone: user?.phone ?? "",
-      about: user?.about ?? "",
-      techStack: (user?.techStack ?? []).join(", "),
-    });
-    setDirectionTags(
-      user?.direction?.split(/[,;/]\s*/).filter(Boolean) ?? ["Frontend"],
-    );
-    setTechTags(user?.techStack ?? []);
   };
 
   const handleSave = () => {
-    if (!user) return;
-
-    const updates: Partial<UserProfile> = {
-      fullName: form.fullName.trim() || undefined,
-      age: form.age ? Number(form.age) : undefined,
-      direction: directionTags.length ? directionTags.join(", ") : undefined,
-      course: form.course || undefined,
-      website: form.website.trim() || undefined,
-      username: form.username.trim() || undefined,
-      email: form.email.trim() || undefined,
-      phone: form.phone.trim() || undefined,
-      about: form.about.trim() || undefined,
-      techStack: techTags.length ? techTags : undefined,
+    if (!data) return;
+    const reverseDirectionMap: Record<string, number> = {
+      Frontend: 0,
+      Backend: 1,
+      "UX/UI": 2,
     };
 
-    userStore.updateUserProfile(updates);
+    const nameParts = form.fullName.split(" ").filter(Boolean);
+
+    const [surname = "", name = "", patronymic = ""] = nameParts;
+
+    const directionNumber = form.direction
+      ? reverseDirectionMap[form.direction]
+      : undefined;
+
+    let courseNumber: number | undefined;
+    if (form.course) {
+      const match = form.course.match(/\d+/);
+      courseNumber = match ? parseInt(match[0], 10) : undefined;
+    }
+
+    const updates = {
+      name: name || data.name,
+      surname: surname || data.surname,
+      patronymic: patronymic || data.patronymic,
+      username: form.username || data.username,
+      email: form.email || data.email,
+      description: form.description || data.description,
+      age: form.age ? Number(form.age) : data.age,
+      course: courseNumber ?? data.course,
+      direction: directionNumber ?? data.direction,
+      skills: techTags.length ? techTags : data.skills,
+      telegramLink: form.telegramLink || data.telegramLink,
+      portfolioLink: form.portfolioLink || data.portfolioLink,
+    };
+
     handleEditEnd();
   };
 
-  if (!user) {
+  if (isLoading) return <div>Загрузка...</div>;
+  if (!data) {
     return <div style={{ padding: 16 }}>Вы не авторизованы.</div>;
   }
 
@@ -127,10 +167,7 @@ const Account = observer(() => {
           </S.AccountHeaderActions>
 
           <S.AccountAvatarWrapper>
-            <S.AccountAvatar
-              src={tgPhotoUrl || user.avatarUrl}
-              alt={user.fullName}
-            />
+            <S.AccountAvatar src={tgPhotoUrl} alt={form.fullName} />
           </S.AccountAvatarWrapper>
 
           {isEditing && (
@@ -254,9 +291,9 @@ const Account = observer(() => {
               </>
             ) : (
               <>
-                <S.AccountFullname>{user.fullName}</S.AccountFullname>
+                <S.AccountFullname>{form.fullName}</S.AccountFullname>
                 <S.AccountMeta>
-                  {user.age} лет — {user.direction} — {user.course}
+                  {form.age} лет — {form.direction} — {form.course}
                 </S.AccountMeta>
               </>
             )}
@@ -277,23 +314,25 @@ const Account = observer(() => {
               isEditing={isEditing}
               placeholder="url"
               readOnly={!isEditing}
-              value={isEditing ? form.website : (user.website ?? "")}
+              value={isEditing ? form.telegramLink : (form.telegramLink ?? "")}
               onFocus={() => setFocusedField("website")}
               onBlur={() => setFocusedField(null)}
-              onChange={(e) => updateField("website", e.target.value)}
+              onChange={(e) => updateField("telegramLink", e.target.value)}
               onClick={() => {
-                if (!isEditing && user?.website) {
-                  window.open(user.website, "_blank");
+                if (!isEditing && form?.telegramLink) {
+                  window.open(form.telegramLink, "_blank");
                 }
               }}
             />
-            {!isEditing && user.website && (
+            {!isEditing && form.telegramLink && (
               <S.CopyButton
                 copied={isCopied}
                 onClick={async (e) => {
                   e.stopPropagation();
                   try {
-                    await navigator.clipboard.writeText(user?.website || "");
+                    await navigator.clipboard.writeText(
+                      form?.telegramLink || "",
+                    );
                     setIsCopied(true);
                     setTimeout(() => setIsCopied(false), 2000);
                   } catch {}
@@ -321,7 +360,7 @@ const Account = observer(() => {
               <S.Input
                 isEditing={isEditing}
                 disabled={!isEditing}
-                value={isEditing ? form[key] : (user[key] ?? "")}
+                value={isEditing ? form[key] : (form[key] ?? "")}
                 onFocus={() => setFocusedField(key)}
                 onBlur={() => setFocusedField(null)}
                 onChange={(e) => updateField(key, e.target.value)}
@@ -339,10 +378,10 @@ const Account = observer(() => {
             <S.TextareaWrapper isEditing={isEditing}>
               <S.Textarea
                 disabled={!isEditing}
-                value={isEditing ? form.about : (user.about ?? "")}
+                value={isEditing ? form.description : (form.description ?? "")}
                 onFocus={() => setFocusedField("about")}
                 onBlur={() => setFocusedField(null)}
-                onChange={(e) => updateField("about", e.target.value)}
+                onChange={(e) => updateField("description", e.target.value)}
               />
             </S.TextareaWrapper>
           </S.Field>

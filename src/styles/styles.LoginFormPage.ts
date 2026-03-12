@@ -159,7 +159,7 @@ export const SubmitButton = styled.button<{ disabled: boolean }>`
 export const EyeButton = styled.button`
   position: absolute;
   right: 16px;
-  top: 50%;
+  top: calc(50% - 5px);
   transform: translateY(-50%);
   background: none;
   border: none;
