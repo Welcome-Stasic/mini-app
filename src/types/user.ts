@@ -39,3 +39,21 @@ export interface UserContextType {
   fetchUserProfile: (userId: string) => Promise<void>;
   updateUserProfile: (updates: Partial<UserProfile>) => Promise<void>;
 }
+export interface IUpdateUser {
+  id: string;
+  username?: string;
+  email?: string;
+  name?: string;
+  surname?: string;
+  patronymic?: string;
+  description?: string;
+  telegramLink?: string;
+  portfolioLink?: string;
+  isSubscribedToNotifications?: boolean;
+  age?: number;
+  direction?: number;
+  course?: number;
+  skills?: string[];
+  userRole?: number;
+  avatarUrl?: string;
+}

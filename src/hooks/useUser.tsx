@@ -5,7 +5,6 @@ import { userKeys } from "./keys";
 
 export const useUser = () => {
   const { userStore } = useStore();
-  const hasCookie = document.cookie.includes(".AspNetCore.Cookies");
   return useQuery({
     queryKey: userKeys.profile(),
     queryFn: async () => {
@@ -18,7 +17,6 @@ export const useUser = () => {
         throw error;
       }
     },
-    enabled: hasCookie,
     staleTime: 0,
     refetchOnMount: true,
     refetchOnWindowFocus: true,
