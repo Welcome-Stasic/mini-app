@@ -1,4 +1,4 @@
-import AllEvents from "../events/allEvents";
+import AllEvents from "../components/allEvents";
 
 function AllEventsPage() {
   return (

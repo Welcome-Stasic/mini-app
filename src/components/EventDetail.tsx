@@ -1,10 +1,7 @@
-import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as S from "../styles/styles.EventDetailPage";
 
-import type { EventItem } from "../types/events";
-import { fetchEventById } from "../api/events";
-import { fallbackEvents } from "../hooks/FallBackEvents";
+import { mockEvents } from "../hooks/EventsDate";
 import { useStore } from "../store/storeProvider";
 import { observer } from "mobx-react-lite";
 
@@ -15,25 +12,7 @@ const EventDetail = observer(() => {
   const { themeStore } = useStore();
   const theme = themeStore.theme;
 
-  const [eventItem, setEventItem] = useState<EventItem | undefined>(() =>
-    fallbackEvents.find((e) => e.id === id),
-  );
-
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      if (!id) return;
-      try {
-        const data = await fetchEventById(id);
-        if (!cancelled && data) setEventItem(data);
-      } catch (_err) {
-        // фолбэк остаётся
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [id]);
+  const eventItem = mockEvents.find((e) => e.id === id);
 
   const gradients: Record<string, string> = {
     События: "linear-gradient(180deg, #0099FF, #FFFFFF)",

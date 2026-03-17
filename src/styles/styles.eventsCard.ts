@@ -31,7 +31,11 @@ export const EventCardContainer = styled.div<{ theme: string }>`
   cursor: pointer;
 
   &:hover {
-    box-shadow: 0 1px 32px rgba(162, 89, 255, 0.18);
+    box-shadow: 0 1px 32px
+      ${(p) =>
+        p.theme === "light"
+          ? "rgba(162, 89, 255, 0.18)"
+          : "rgba(0, 0, 0, 0.18)"};
   }
 `;
 

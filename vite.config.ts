@@ -8,13 +8,13 @@ export default defineConfig({
   plugins: [react()],
 
   // прокси для разработки
-  // server: {
-  //   proxy: {
-  //     "/api": {
-  //       target: "http://62c8d468f852.vps.myjino.ru:49196",
-  //       changeOrigin: true,
-  //       secure: false,
-  //     },
-  //   },
-  // },
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://62c8d468f852.vps.myjino.ru:49196",
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
 });
