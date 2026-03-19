@@ -9,6 +9,7 @@ import { useStore } from "../store/storeProvider.tsx";
 import { useUpdateUser } from "../hooks/useUpdateUser.tsx";
 import { Loader } from "./loader.tsx";
 import type { IUpdateUser } from "../types/user.ts";
+import { useGetAvatar } from "../hooks/useGetAvatar.tsx";
 
 const directionName: Record<number, string> = {
   0: "Frontend",
@@ -20,7 +21,12 @@ const Account = observer(() => {
   const updateUser = useUpdateUser();
   const { userStore } = useStore();
   const data = userStore.user;
-  const tgPhotoUrl = window.Telegram?.WebApp?.initDataUnsafe?.user?.photo_url;
+  const { data: avatarBlob } = useGetAvatar();
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const photoUrl =
+    avatarUrl ||
+    window.Telegram?.WebApp?.initDataUnsafe?.user?.photo_url ||
+    undefined;
 
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -53,6 +59,16 @@ const Account = observer(() => {
     setForm((prev) => ({ ...prev, [key]: value }));
   };
 
+  useEffect(() => {
+    if (avatarBlob) {
+      const url = URL.createObjectURL(avatarBlob);
+      setAvatarUrl(url);
+      return () => URL.revokeObjectURL(url);
+    } else {
+      setAvatarUrl(null);
+    }
+  }, [avatarBlob]);
+  
   useEffect(() => {
     if (data) {
       let directionStr = "";
@@ -121,12 +137,6 @@ const Account = observer(() => {
       ? reverseDirectionMap[form.direction]
       : undefined;
 
-    let courseNumber: number | undefined;
-    if (form.course) {
-      const match = form.course.match(/\d+/);
-      courseNumber = match ? parseInt(match[0], 10) : undefined;
-    }
-
     const updates: IUpdateUser = {
       id: data.id,
       name: name || data.name,
@@ -136,7 +146,7 @@ const Account = observer(() => {
       email: form.email || data.email,
       description: form.description || data.description,
       age: form.age ? Number(form.age) : data.age,
-      course: courseNumber,
+      course: form.course ? Number(form.course) : Number(data.course),
       direction: directionNumber ?? data.direction,
       skills: techTags.length ? techTags : data.skills,
       telegramLink: form.telegramLink || data.telegramLink,
@@ -181,11 +191,12 @@ const Account = observer(() => {
           </S.AccountHeaderActions>
 
           <S.AccountAvatarWrapper>
-            <S.AccountAvatar src={tgPhotoUrl} alt={form.fullName} />
+            <S.AccountAvatar src={photoUrl} alt={form.fullName} />
           </S.AccountAvatarWrapper>
 
           {isEditing && (
             <S.AccountChangePhoto onClick={() => fileInputRef.current?.click()}>
+              <input type="file" />
               Выбрать новую фотографию
             </S.AccountChangePhoto>
           )}
@@ -295,10 +306,10 @@ const Account = observer(() => {
                       onChange={(e) => updateField("course", e.target.value)}
                     >
                       <option value="">Выбери курс</option>
-                      <option value="1 курс">1 курс</option>
-                      <option value="2 курс">2 курс</option>
-                      <option value="3 курс">3 курс</option>
-                      <option value="4 курс">4 курс</option>
+                      <option value="1">1 курс</option>
+                      <option value="2">2 курс</option>
+                      <option value="3">3 курс</option>
+                      <option value="4">4 курс</option>
                     </S.Select>
                   </S.Field>
                 </div>
