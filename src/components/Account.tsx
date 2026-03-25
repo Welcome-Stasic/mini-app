@@ -196,7 +196,6 @@ const Account = observer(() => {
 
           {isEditing && (
             <S.AccountChangePhoto onClick={() => fileInputRef.current?.click()}>
-              <input type="file" />
               Выбрать новую фотографию
             </S.AccountChangePhoto>
           )}

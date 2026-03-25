@@ -26,16 +26,25 @@ export enum RouteName {
   ACCOUNT = "/account",
 }
 
+// export const publicRout: IRoutes[] = [
+//   { path: RouteName.LOGIN, component: LoginFormPage },
+// ];
+// export const privateRout: IRoutes[] = [
+//   { path: RouteName.ALLEVENTS, component: AllEventsPage },
+//   { path: RouteName.ALLEVENTSTYPE, component: AllEventsPage },
+//   { path: RouteName.MYIVENTS, component: MyEventsPage },
+//   { path: RouteName.EVENTDETAIL, component: EventDetailPage },
+//   { path: RouteName.ACCOUNT, component: AccountPage },
+// ];
 export const publicRout: IRoutes[] = [
   { path: RouteName.LOGIN, component: LoginFormPage },
-];
-export const privateRout: IRoutes[] = [
   { path: RouteName.ALLEVENTS, component: AllEventsPage },
   { path: RouteName.ALLEVENTSTYPE, component: AllEventsPage },
   { path: RouteName.MYIVENTS, component: MyEventsPage },
   { path: RouteName.EVENTDETAIL, component: EventDetailPage },
   { path: RouteName.ACCOUNT, component: AccountPage },
 ];
+export const privateRout: IRoutes[] = [];
 
 const AppRoutes = observer(() => {
   const { userStore } = useStore();
