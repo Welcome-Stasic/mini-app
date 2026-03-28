@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 import { useStore } from "../store/storeProvider";
 import * as S from "../styles/styles.Header";
 import { useNavigate } from "react-router-dom";
-import { useSignOut } from "../hooks/useLogOut";
+import { useSignOut } from "../hooks/account/useLogOut";
 import { RouteName } from "../router/routes";
 import { useState } from "react";
 import { Loader } from "./loader";

@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { API } from "../axios";
-import { userKeys } from "./keys";
-import { useStore } from "../store/storeProvider";
-import type { UserProfile } from "../types/user";
+import { API } from "../../axios";
+import { userKeys } from "../keys";
+import { useStore } from "../../store/storeProvider";
+import type { UserProfile } from "../../types/user";
 
 export const useAuth = () => {
   const queryClient = useQueryClient();

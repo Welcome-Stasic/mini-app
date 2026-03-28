@@ -55,5 +55,3 @@ export const getAvatar = async (): Promise<Blob> => {
 export const deleteAvatar = async (): Promise<void> => {
   await apiClient.delete(DELETE_AVATAR);
 };
-
-////////// Взаимодействие с ивентами //////////

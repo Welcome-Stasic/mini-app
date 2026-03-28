@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { IconEye, IconEyeOff } from "../icon/icons";
 import { RouteName } from "../router/routes";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../hooks/account/useAuth";
 import * as S from "../styles/styles.LoginFormPage";
 
 const emailRegex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;

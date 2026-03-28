@@ -6,10 +6,10 @@ import { IconCop, IconCopy, IconEdit } from "../icon/icons.tsx";
 import { RouteName } from "../router/routes.tsx";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../store/storeProvider.tsx";
-import { useUpdateUser } from "../hooks/useUpdateUser.tsx";
+import { useUpdateUser } from "../hooks/account/useUpdateUser.tsx";
 import { Loader } from "./loader.tsx";
 import type { IUpdateUser } from "../types/user.ts";
-import { useGetAvatar } from "../hooks/useGetAvatar.tsx";
+import { useGetAvatar } from "../hooks/account/useGetAvatar.tsx";
 
 const directionName: Record<number, string> = {
   0: "Frontend",
@@ -36,6 +36,7 @@ const Account = observer(() => {
   const [focusedField, setFocusedField] = useState<string | null>(null);
 
   const [form, setForm] = useState({
+    userName: "",
     fullName: "",
     age: "",
     phone: "",
@@ -43,7 +44,6 @@ const Account = observer(() => {
     direction: "",
     telegramLink: "",
     portfolioLink: "",
-    username: "",
     email: "",
     description: "",
     skills: "",
@@ -84,6 +84,7 @@ const Account = observer(() => {
         : "";
 
       setForm({
+        userName: data.username ?? "",
         fullName: fullName,
         age: String(data.age ?? ""),
         course: String(data.course ?? ""),
@@ -91,7 +92,6 @@ const Account = observer(() => {
         direction: directionStr,
         telegramLink: data.telegramLink ?? "",
         portfolioLink: data.portfolioLink ?? "",
-        username: data.username ?? "",
         email: data.email ?? "",
         description: data.description ?? "",
         skills: skillsStr,
@@ -139,21 +139,20 @@ const Account = observer(() => {
 
     const updates: IUpdateUser = {
       id: data.id,
+      username: form.userName || data.username,
+      email: form.email || data.email,
       name: name || data.name,
       surname: surname || data.surname,
       patronymic: patronymic || data.patronymic,
-      username: form.username || data.username,
-      email: form.email || data.email,
       description: form.description || data.description,
-      age: form.age ? Number(form.age) : data.age,
-      course: form.course ? Number(form.course) : Number(data.course),
-      direction: directionNumber ?? data.direction,
-      skills: techTags.length ? techTags : data.skills,
       telegramLink: form.telegramLink || data.telegramLink,
       portfolioLink: form.portfolioLink || data.portfolioLink,
       isSubscribedToNotifications: false,
+      age: form.age ? Number(form.age) : data.age,
+      direction: directionNumber ?? data.direction,
+      course: form.course ? Number(form.course) : Number(data.course),
+      skills: techTags.length ? techTags : data.skills,
       userRole: 2,
-      avatarUrl: data.avatarUrl,
     };
 
     updateUser.mutate(updates, {
@@ -359,7 +358,7 @@ const Account = observer(() => {
                     );
                     setIsCopied(true);
                     setTimeout(() => setIsCopied(false), 2000);
-                  } catch {}
+                  } catch(error) { console.log(error)}
                 }}
               >
                 {isCopied ? <IconCop /> : <IconCopy />}
@@ -369,13 +368,13 @@ const Account = observer(() => {
         </S.Field>
 
         <div style={{ display: "grid", gap: "20px", marginTop: "16px" }}>
-          {(["username", "email", "phone"] as const).map((key) => (
+          {(["userName", "email", "phone"] as const).map((key) => (
             <S.Field key={key}>
               <S.FieldLabel
                 isEditing={isEditing}
                 isFocused={focusedField === key}
               >
-                {key === "username"
+                {key === "userName"
                   ? "Username"
                   : key === "email"
                     ? "Почта"

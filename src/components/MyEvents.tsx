@@ -6,9 +6,12 @@ import "./EventsByType.css";
 import "./MyEvents.css";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../store/storeProvider";
+import { useMyEvents } from "../hooks/events/useMyEvents";
+import { Loader } from "./loader";
 
 const MyEvents = observer(() => {
   const { myEventsStore } = useStore();
+  const { isLoading } = useMyEvents();
 
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<"current" | "past">("current");
@@ -30,60 +33,61 @@ const MyEvents = observer(() => {
   };
 
   // Функция для парсинга даты из строки
-  const parseEventDate = (dateStr: string): Date => {
-    // Пытаемся распарсить различные форматы дат
-    const today = new Date();
+  // const parseEventDate = (dateStr: string): Date => {
+  //   // Пытаемся распарсить различные форматы дат
+  //   const today = new Date();
 
-    // Если дата содержит "до", это период
-    if (dateStr.includes("до")) {
-      const endDateStr = dateStr.split("до")[1].trim();
-      // Простая логика для демонстрации - в реальном приложении нужен более сложный парсинг
-      const day = parseInt(endDateStr.split(" ")[0]);
-      const month = endDateStr.includes("октября")
-        ? 9
-        : endDateStr.includes("ноября")
-          ? 10
-          : endDateStr.includes("декабря")
-            ? 11
-            : today.getMonth();
-      return new Date(today.getFullYear(), month, day);
-    }
+  //   // Если дата содержит "до", это период
+  //   if (dateStr.includes("до")) {
+  //     const endDateStr = dateStr.split("до")[1].trim();
+  //     // Простая логика для демонстрации - в реальном приложении нужен более сложный парсинг
+  //     const day = parseInt(endDateStr.split(" ")[0]);
+  //     const month = endDateStr.includes("октября")
+  //       ? 9
+  //       : endDateStr.includes("ноября")
+  //         ? 10
+  //         : endDateStr.includes("декабря")
+  //           ? 11
+  //           : today.getMonth();
+  //     return new Date(today.getFullYear(), month, day);
+  //   }
 
-    // Если дата содержит число и месяц
-    const day = parseInt(dateStr.split(" ")[0]);
-    if (!isNaN(day)) {
-      const month = dateStr.includes("октября")
-        ? 9
-        : dateStr.includes("ноября")
-          ? 10
-          : dateStr.includes("декабря")
-            ? 11
-            : dateStr.includes("сентября")
-              ? 8
-              : today.getMonth();
-      return new Date(today.getFullYear(), month, day);
-    }
+  //   // Если дата содержит число и месяц
+  //   const day = parseInt(dateStr.split(" ")[0]);
+  //   if (!isNaN(day)) {
+  //     const month = dateStr.includes("октября")
+  //       ? 9
+  //       : dateStr.includes("ноября")
+  //         ? 10
+  //         : dateStr.includes("декабря")
+  //           ? 11
+  //           : dateStr.includes("сентября")
+  //             ? 8
+  //             : today.getMonth();
+  //     return new Date(today.getFullYear(), month, day);
+  //   }
 
-    // Если не удалось распарсить, считаем событие актуальным
-    return new Date(today.getTime() + 24 * 60 * 60 * 1000);
-  };
+  //   // Если не удалось распарсить, считаем событие актуальным
+  //   return new Date(today.getTime() + 24 * 60 * 60 * 1000);
+  // };
 
   // Разделение событий на актуальные и прошедшие
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  const currentEvents = myEventsStore.myEvents.filter((event) => {
-    const eventDate = parseEventDate(event.date);
-    return eventDate >= today;
-  });
+  // const currentEvents = myEventsStore.myEvents.filter(() => {
+  //   const eventDate = parseEventDate("12.12.2027");
+  //   return eventDate >= today;
+  // });
 
-  const pastEvents = myEventsStore.myEvents.filter((event) => {
-    const eventDate = parseEventDate(event.date);
-    return eventDate < today;
-  });
+  // const pastEvents = myEventsStore.myEvents.filter(() => {
+  //   const eventDate = parseEventDate("12.12.2027");
+  //   return eventDate < today;
+  // });
 
-  const displayEvents = activeTab === "current" ? currentEvents : pastEvents;
-
+  // const displayEvents = activeTab === "current" ? currentEvents : pastEvents;
+  const displayEvents = myEventsStore.myEvents;
+  if (isLoading) return <Loader/>
   if (myEventsStore.myEvents.length === 0) {
     return (
       <div className="my-events-container">

@@ -1,18 +1,23 @@
 import { useNavigate, useParams } from "react-router-dom";
 import * as S from "../styles/styles.EventDetailPage";
 
-import { mockEvents } from "../hooks/EventsDate";
 import { useStore } from "../store/storeProvider";
 import { observer } from "mobx-react-lite";
+import { useEvents } from "../hooks/events/useEvents";
+import { useAddEventUser } from "../hooks/events/useAddEventUser";
+import { useRemoveEventUser } from "../hooks/events/useRemoveEventUser";
+import { Loader } from "./loader";
 
 const EventDetail = observer(() => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { myEventsStore } = useStore();
-  const { themeStore } = useStore();
+  const { myEventsStore, themeStore} = useStore();
   const theme = themeStore.theme;
+  const { data: events, isLoading } = useEvents();
+  const eventItem = events?.find(e => e.id === id);
+  const addMutation = useAddEventUser();
+  const removeMutation = useRemoveEventUser();
 
-  const eventItem = mockEvents.find((e) => e.id === id);
 
   const gradients: Record<string, string> = {
     События: "linear-gradient(180deg, #0099FF, #FFFFFF)",
@@ -21,6 +26,7 @@ const EventDetail = observer(() => {
     Стажировка: "linear-gradient(180deg, #787878, #161616)",
     Вакансия: "linear-gradient(135deg, #87C0FF, #007AFF)",
   };
+  if (isLoading) return <Loader/>
 
   if (!eventItem) {
     return (
@@ -33,9 +39,17 @@ const EventDetail = observer(() => {
     );
   }
 
-  const gradient =
-    gradients[eventItem.type] || "linear-gradient(135deg, #787878, #161616)";
+  const gradient = gradients[eventItem.type] || "linear-gradient(135deg, #787878, #161616)";
+  
+  const isAdded = myEventsStore.isEventAdded(eventItem?.id);
 
+  const handleToggle = () => {
+    if (isAdded) {
+      removeMutation.mutate(eventItem.id);
+    } else {
+      addMutation.mutate(eventItem.id);
+    }
+  };
   return (
     <S.Container theme={theme}>
       <S.Header gradient={gradient} />
@@ -54,28 +68,14 @@ const EventDetail = observer(() => {
                 </S.Chip>
               ))}
             </S.ChipsRow>
-            <S.Description>
-              Приглашаем вас на уникальное мероприятие, организованное компанией
-              "Инфотех". В этот день мы представим новейшие технологии и решения
-              в области информационных технологий. Участники смогут посетить
-              мастер-классы, где эксперты поделятся своими знаниями и опытом.
-              Также будет возможность пообщаться с представителями ведущих
-              компаний отрасли. Не упустите шанс расширить свои горизонты и
-              завести полезные знакомства. Ждем вас на нашем мероприятии!
+            <S.Description>{eventItem.description}
             </S.Description>
             <S.CtaButton
               gradient={gradient}
-              disabled={myEventsStore.isEventAdded(eventItem.id)}
-              onClick={() => {
-                if (!myEventsStore.isEventAdded(eventItem.id)) {
-                  myEventsStore.addEvent(eventItem);
-                  alert('Событие добавлено в "Мои события"!');
-                } else {
-                  alert("Вы уже участвуете в этом событии!");
-                }
-              }}
+              disabled={addMutation.isPending || removeMutation.isPending}
+              onClick={handleToggle}
             >
-              {myEventsStore.isEventAdded(eventItem.id)
+              {isAdded
                 ? "Уже участвуете"
                 : "Участвовать"}
             </S.CtaButton>

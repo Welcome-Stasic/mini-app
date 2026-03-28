@@ -9,7 +9,7 @@ import type React from "react";
 import { ProtectedUser } from "./protectedUser";
 import { useStore } from "../store/storeProvider";
 import { observer } from "mobx-react-lite";
-import { useUser } from "../hooks/useUser";
+import { useUser } from "../hooks/account/useUser";
 import { Loader } from "../components/loader";
 
 interface IRoutes {

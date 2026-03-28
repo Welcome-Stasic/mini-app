@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { getCurrentUser } from "../axios/requests/auth";
-import { useStore } from "../store/storeProvider";
-import { userKeys } from "./keys";
+import { useStore } from "../../store/storeProvider";
+import { userKeys } from "../keys";
+import { API } from "../../axios";
 
 export const useUser = () => {
   const { userStore } = useStore();
@@ -9,7 +9,7 @@ export const useUser = () => {
     queryKey: userKeys.profile(),
     queryFn: async () => {
       try {
-        const user = await getCurrentUser();
+        const user = await API.auth.getCurrentUser();
         userStore.setUser(user);
         return user;
       } catch (error) {

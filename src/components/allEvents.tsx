@@ -17,15 +17,15 @@ import { useNavigate, useParams } from "react-router-dom";
 import { RouteName } from "../router/routes";
 import { useStore } from "../store/storeProvider";
 import { observer } from "mobx-react-lite";
+import { useEvents } from "../hooks/events/useEvents";
+import { Loader } from "./loader";
 
 const AllEvents = observer(() => {
-  const { eventsCatalogStore } = useStore();
+  const { eventsStore } = useStore();
+  const { isLoading } = useEvents();
 
-  useEffect(() => {
-    eventsCatalogStore.loadEvents();
-  }, [eventsCatalogStore]);
+  const events = eventsStore.events;
 
-  const events = eventsCatalogStore.events;
 
   const navigate = useNavigate();
   const { type: slug } = useParams<{ type?: string }>();
@@ -112,7 +112,7 @@ const AllEvents = observer(() => {
   //   setSelectedType(null);
   //   setIsAutoPlaying(true);
   // };
-
+  if (isLoading) {return <Loader/>}
   if (originalType) {
     return (
       <EventsByType

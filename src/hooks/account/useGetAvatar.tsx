@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAvatar } from "../axios/requests/auth";
-import { avatarKeys } from "./keys";
+import { avatarKeys } from "../keys";
+import { API } from "../../axios";
 
 export const useGetAvatar = () => {
   return useQuery({
     queryKey: avatarKeys.detail(),
-    queryFn: getAvatar,
+    queryFn: API.auth.getAvatar,
     staleTime: 300000,
     refetchOnMount: true,
     refetchOnWindowFocus: true,

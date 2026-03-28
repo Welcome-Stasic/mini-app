@@ -1,0 +1,25 @@
+import { useQuery } from "@tanstack/react-query";
+import { useStore } from "../../store/storeProvider";
+import { eventsKeys } from "../keys";
+import { API } from "../../axios";
+import { mapEventType } from "../../types/events";
+
+export const useMyEvents = () => {
+  const { myEventsStore } = useStore();
+  return useQuery({
+    queryKey: eventsKeys.myEvents(),
+    queryFn: async () => {
+      const events = await API.events.getMyEvents();
+      const mappedEvents = events.map(event => ({
+        ...event,
+        type: mapEventType(event.eventType)
+      }));
+      myEventsStore.loadMyEvents(mappedEvents);
+      return mappedEvents;
+    },
+    staleTime: 0,
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
+    retry: false,
+  });
+};
