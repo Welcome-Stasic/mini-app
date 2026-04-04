@@ -9,7 +9,8 @@ export const useUpdateUser = () => {
 
   return useMutation({
     mutationFn: API.auth.updateUser,
-    onSuccess: (updatedUser) => {
+    onSuccess: async () => {
+      const updatedUser = await API.auth.getCurrentUser();
       userStore.setUser(updatedUser);
       queryClient.setQueryData(userKeys.profile(), updatedUser);
     },

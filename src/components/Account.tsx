@@ -389,7 +389,6 @@ const Account = observer(() => {
             {!isEditing && form.telegramLink && (
               <S.CopyButton
                 theme={theme}
-                copied={isCopied}
                 onClick={async (e) => {
                   e.stopPropagation();
                   try {
