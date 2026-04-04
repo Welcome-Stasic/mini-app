@@ -73,6 +73,10 @@ export const Menu = styled.div<{ theme: string }>`
   z-index: 1000;
 `;
 
+export const BlockHidden = styled.div`
+  width: 48px;
+`;
+
 export const MenuItem = styled.div<{ theme: string }>`
   padding: 12px 16px;
   font-size: 16px;

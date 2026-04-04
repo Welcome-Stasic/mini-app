@@ -33,7 +33,9 @@ const Account = observer(() => {
 
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [selectedAvatarFile, setSelectedAvatarFile] = useState<File | null>(null);
+  const [selectedAvatarFile, setSelectedAvatarFile] = useState<File | null>(
+    null,
+  );
   const [isCopied, setIsCopied] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [focusedField, setFocusedField] = useState<string | null>(null);
@@ -71,7 +73,7 @@ const Account = observer(() => {
       setAvatarUrl(null);
     }
   }, [avatarBlob]);
-  
+
   useEffect(() => {
     if (data) {
       let directionStr = "";
@@ -104,7 +106,6 @@ const Account = observer(() => {
     }
   }, [data, isEditing]);
 
-
   const handleEditStart = () => {
     setSelectedAvatarFile(null);
     setIsEditing(true);
@@ -130,7 +131,7 @@ const Account = observer(() => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setSelectedAvatarFile(e.target.files[0]);
-   }
+    }
   };
 
   const handleSave = () => {
@@ -177,7 +178,7 @@ const Account = observer(() => {
           handleEditEnd();
         },
       });
-    };
+    }
     updateUser.mutate(updates, {
       onSuccess: () => {
         handleEditEnd();
@@ -202,10 +203,18 @@ const Account = observer(() => {
               </S.AccountAction>
             ) : (
               <>
-                <S.AccountAction theme={theme} className="cancel" onClick={handleCancel}>
+                <S.AccountAction
+                  theme={theme}
+                  className="cancel"
+                  onClick={handleCancel}
+                >
                   ✕
                 </S.AccountAction>
-                <S.AccountAction theme={theme} className="save" onClick={handleSave}>
+                <S.AccountAction
+                  theme={theme}
+                  className="save"
+                  onClick={handleSave}
+                >
                   ✓
                 </S.AccountAction>
               </>
@@ -216,16 +225,18 @@ const Account = observer(() => {
             <S.AccountAvatar src={photoUrl} alt={form.fullName} />
           </S.AccountAvatarWrapper>
           <input
-          type="file"
-          ref={fileInputRef}
-          style={{ display: 'none' }}
-          accept="image/*"
-          onChange={handleFileChange}
+            type="file"
+            ref={fileInputRef}
+            style={{ display: "none" }}
+            accept="image/*"
+            onChange={handleFileChange}
           />
 
           {isEditing && (
             <S.AccountChangePhoto onClick={() => fileInputRef.current?.click()}>
-              {selectedAvatarFile ? selectedAvatarFile.name : "Выбрать новую фотографию"}
+              {selectedAvatarFile
+                ? selectedAvatarFile.name
+                : "Выбрать новую фотографию"}
             </S.AccountChangePhoto>
           )}
 
@@ -253,7 +264,7 @@ const Account = observer(() => {
                 <S.Field>
                   <S.DirectionEditContainer theme={theme} isEditing={isEditing}>
                     <S.FieldLabel
-                    theme={theme}
+                      theme={theme}
                       isEditing={isEditing}
                       isFocused={focusedField === "direction"}
                     >
@@ -263,7 +274,11 @@ const Account = observer(() => {
                       {AVAILABLE_DIRECTIONS.map((opt) => {
                         const checked = directionTags.includes(opt);
                         return (
-                          <S.EditCheckboxItem theme={theme} key={opt} checked={checked}>
+                          <S.EditCheckboxItem
+                            theme={theme}
+                            key={opt}
+                            checked={checked}
+                          >
                             <input
                               type="checkbox"
                               checked={checked}
@@ -290,7 +305,7 @@ const Account = observer(() => {
                 <div style={{ display: "flex", gap: 12, marginTop: 16 }}>
                   <S.Field style={{ flex: 1 }}>
                     <S.FieldLabel
-                    theme={theme}
+                      theme={theme}
                       isEditing={isEditing}
                       isFocused={focusedField === "age"}
                     >
@@ -326,7 +341,7 @@ const Account = observer(() => {
 
                   <S.Field style={{ flex: 1, position: "relative" }}>
                     <S.FieldLabel
-                    theme={theme}
+                      theme={theme}
                       isEditing={isEditing}
                       isFocused={focusedField === "course"}
                     >
@@ -364,7 +379,7 @@ const Account = observer(() => {
           <S.WebsiteField>
             {isEditing && (
               <S.FieldLabel
-              theme={theme}
+                theme={theme}
                 isEditing={isEditing}
                 isFocused={focusedField === "website"}
               >
@@ -376,7 +391,9 @@ const Account = observer(() => {
               isEditing={isEditing}
               placeholder="url"
               readOnly={!isEditing}
-              value={isEditing ? form.telegramLink : (form.telegramLink ?? "")}
+              value={
+                isEditing ? form.portfolioLink : (form.portfolioLink ?? "")
+              }
               onFocus={() => setFocusedField("website")}
               onBlur={() => setFocusedField(null)}
               onChange={(e) => updateField("telegramLink", e.target.value)}
@@ -397,7 +414,9 @@ const Account = observer(() => {
                     );
                     setIsCopied(true);
                     setTimeout(() => setIsCopied(false), 2000);
-                  } catch(error) { console.log(error)}
+                  } catch (error) {
+                    console.log(error);
+                  }
                 }}
               >
                 {isCopied ? <IconCop /> : <IconCopy />}
@@ -410,7 +429,7 @@ const Account = observer(() => {
           {(["userName", "email", "phone"] as const).map((key) => (
             <S.Field key={key}>
               <S.FieldLabel
-              theme={theme}
+                theme={theme}
                 isEditing={isEditing}
                 isFocused={focusedField === key}
               >
@@ -434,7 +453,7 @@ const Account = observer(() => {
 
           <S.Field>
             <S.FieldLabel
-            theme={theme}
+              theme={theme}
               isEditing={isEditing}
               isFocused={focusedField === "about"}
             >
@@ -455,7 +474,9 @@ const Account = observer(() => {
 
         {isEditing ? (
           <S.Field>
-            <S.FieldLabel theme={theme} isEditing={isEditing}>Стек технологий</S.FieldLabel>
+            <S.FieldLabel theme={theme} isEditing={isEditing}>
+              Стек технологий
+            </S.FieldLabel>
             <S.TagsBox theme={theme}>
               {techTags.map((t) => (
                 <S.TechTag theme={theme} key={t}>
@@ -472,7 +493,7 @@ const Account = observer(() => {
             </S.TagsBox>
             <S.Field style={{ marginTop: "30px" }}>
               <S.FieldLabel
-              theme={theme}
+                theme={theme}
                 isEditing={isEditing}
                 isFocused={focusedField === "techStack"}
               >
@@ -523,7 +544,9 @@ const Account = observer(() => {
                 </S.FieldLabel>
                 <S.AccountTagsList>
                   {techTags.map((tag) => (
-                    <S.AccountTag theme={theme} key={tag}>#{tag}</S.AccountTag>
+                    <S.AccountTag theme={theme} key={tag}>
+                      #{tag}
+                    </S.AccountTag>
                   ))}
                 </S.AccountTagsList>
               </S.TagsBox>

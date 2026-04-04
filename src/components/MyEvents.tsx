@@ -17,7 +17,7 @@ const MyEvents = observer(() => {
   const [activeTab, setActiveTab] = useState<"current" | "past">("current");
 
   const handleEventClick = (eventId: string) => {
-    navigate(`/events/${eventId}`);
+    navigate(`/events/${eventId}?from=my`);
   };
 
   // Функция для определения градиента по типу события (используем те же градиенты, что и в EventDetail)
@@ -87,7 +87,7 @@ const MyEvents = observer(() => {
 
   // const displayEvents = activeTab === "current" ? currentEvents : pastEvents;
   const displayEvents = myEventsStore.myEvents;
-  if (isLoading) return <Loader/>
+  if (isLoading) return <Loader />;
   if (myEventsStore.myEvents.length === 0) {
     return (
       <div className="my-events-container">

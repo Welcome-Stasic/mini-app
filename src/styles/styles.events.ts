@@ -108,7 +108,7 @@ export const SectionHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 20px;
 `;
 
 export const sectionTitleStyle = css`
@@ -124,7 +124,6 @@ export const BtnEvent = styled.button`
   color: #1e90ff;
   border: none;
   font-weight: 600;
-  margin-bottom: 16px;
   background: none;
   display: flex;
   align-items: center;

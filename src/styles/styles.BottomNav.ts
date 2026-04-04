@@ -5,7 +5,8 @@ export const BottomNav = styled.div<{ theme: string }>`
   bottom: 0;
   left: 0;
   right: 0;
-  height: 64px;
+  padding-top: 12px;
+  padding-bottom: 20px;
   background: ${(p) => (p.theme === "light" ? "#fff" : "#212121")};
   border-top: ${(p) => (p.theme === "light" ? "1px solid #eee" : "")};
   display: flex;

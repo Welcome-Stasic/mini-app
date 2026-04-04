@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import * as S from "../styles/styles.EventDetailPage";
 
 import { useStore } from "../store/storeProvider";
@@ -11,14 +11,14 @@ import { Loader } from "./loader";
 const EventDetail = observer(() => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { myEventsStore, themeStore} = useStore();
+  const { myEventsStore, themeStore } = useStore();
   const theme = themeStore.theme;
+  const [searchParams] = useSearchParams();
   const { data: events, isLoading } = useEvents();
-  const eventItem = events?.find(e => e.id === id);
+  const eventItem = events?.find((e) => e.id === id);
   const addMutation = useAddEventUser();
   const removeMutation = useRemoveEventUser();
-
-
+  const paramsMy = searchParams.get("from") === "my";
   const gradients: Record<string, string> = {
     События: "linear-gradient(180deg, #0099FF)",
     Олимпиада: "linear-gradient(180deg, #FF9500, #FFBD61)",
@@ -26,7 +26,7 @@ const EventDetail = observer(() => {
     Стажировка: "linear-gradient(180deg, #787878, #161616)",
     Вакансия: "linear-gradient(135deg, #87C0FF, #007AFF)",
   };
-  if (isLoading) return <Loader/>
+  if (isLoading) return <Loader />;
 
   if (!eventItem) {
     return (
@@ -39,21 +39,41 @@ const EventDetail = observer(() => {
     );
   }
 
-  const gradient = gradients[eventItem.type] || "linear-gradient(135deg, #787878, #161616)";
-  
+  const gradient =
+    gradients[eventItem.type] || "linear-gradient(135deg, #787878, #161616)";
+
   const isAdded = myEventsStore.isEventAdded(eventItem?.id);
 
   const handleToggle = () => {
     if (isAdded) {
       myEventsStore.removeEvents(eventItem.id);
       removeMutation.mutate(eventItem.id);
-      alert(`Вы отписались от события ${eventItem.title}`)
+      alert(`Вы отписались от события ${eventItem.title}`);
     } else {
       myEventsStore.addEvents(eventItem);
       addMutation.mutate(eventItem.id);
-      alert(`Успешно подписались на событие ${eventItem.title}`)
+      alert(`Успешно подписались на событие ${eventItem.title}`);
     }
   };
+  const btnText = () => {
+    if (paramsMy) {
+      return "Отписаться";
+    }
+    return isAdded ? "Уже участвуете" : "Участвовать";
+  };
+  const isBtnActive = () => {
+    if (paramsMy) {
+      return true;
+    }
+    if (!paramsMy && !isAdded) {
+      return true;
+    }
+    return false;
+  };
+
+  const isDis =
+    !isBtnActive() || addMutation.isPending || removeMutation.isPending;
+
   return (
     <S.Container theme={theme}>
       <S.Header gradient={gradient} />
@@ -72,17 +92,16 @@ const EventDetail = observer(() => {
                 </S.Chip>
               ))}
             </S.ChipsRow>
-            <S.Description>{eventItem.description}
-            </S.Description>
-            <S.CtaButton
-              gradient={gradient}
-              disabled={addMutation.isPending || removeMutation.isPending}
-              onClick={handleToggle}
-            >
-              {isAdded
-                ? "Уже участвуете"
-                : "Участвовать"}
-            </S.CtaButton>
+            <S.Description>{eventItem.description}</S.Description>
+            <div style={{ display: "flex" }}>
+              <S.CtaButton
+                gradient={gradient}
+                disabled={isDis}
+                onClick={handleToggle}
+              >
+                {btnText()}
+              </S.CtaButton>
+            </div>
           </S.Info>
         </S.Card>
       </S.Grid>

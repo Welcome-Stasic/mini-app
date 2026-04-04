@@ -6,7 +6,7 @@ interface EventImageProps {
 }
 
 const gradientsByType: Record<string, string> = {
-  События: "linear-gradient(180deg, #0099FF, #c1d9ff)",
+  События: "linear-gradient(180deg, #0099FF)",
   Олимпиада: "linear-gradient(180deg, #FF9500, #FFBD61)",
   Конкурс: "linear-gradient(180deg, #7378FF, #ACAFFF)",
   Стажировка: "linear-gradient(180deg, #787878, #161616)",

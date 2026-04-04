@@ -12,7 +12,7 @@ export const AccountCard = styled.div<ThemeProps>`
   padding-bottom: 76px;
   background: ${(p) => (p.theme === "light" ? "#fbfbfb" : "#212121")};
   border-radius: 16px;
-  color: ${(p) => (p.theme === "light" ? "#111827" : "#ffffff")};
+  color: ${(p) => (p.theme === "light" ? "black" : "#ffffff")};
 `;
 
 export const AccountHeader = styled.div`
@@ -40,7 +40,7 @@ export const AccountAction = styled.button<{ theme: string }>`
   display: grid;
   place-items: center;
   cursor: pointer;
-  background: ${(p) => p.theme === 'light' ? "white" : "#2990FF26"};
+  background: ${(p) => (p.theme === "light" ? "white" : "#2990FF26")};
   color: #1f6feb;
 
   &.save {
@@ -123,7 +123,7 @@ export const Input = styled.input<{ isEditing?: boolean; theme: string }>`
   border: 2px solid ${(p) => (p.theme === "light" ? "#e5e7eb" : "#ffffff22")};
   border-radius: 10px;
   background: ${(p) => (p.theme === "light" ? "#ffffff" : "transparent")};
-  color: ${(p) => (p.theme === "light" ? "#111827" : "#ffffff")};
+  color: ${(p) => (p.theme === "light" ? "black" : "#ffffff")};
   font-size: 16px;
   line-height: 150%;
   box-sizing: border-box;
@@ -141,11 +141,14 @@ export const Input = styled.input<{ isEditing?: boolean; theme: string }>`
   }
 `;
 
-export const TextareaWrapper = styled.div<{ isEditing?: boolean; theme: string }>`
+export const TextareaWrapper = styled.div<{
+  isEditing?: boolean;
+  theme: string;
+}>`
   padding: 16px;
   border: 2px solid ${(p) => (p.theme === "light" ? "#e5e7eb" : "#ffffff22")};
   border-radius: 10px;
-  background: ${(p) => (p.theme === "light" ? "#ffffff" : "transparent")};
+  background: transparent;
   overflow-y: auto;
   margin-bottom: 20px;
 
@@ -163,10 +166,10 @@ export const Textarea = styled.textarea<{ theme: string }>`
   background: transparent;
   font-size: 16px;
   line-height: 150%;
-  color: ${(p) => (p.theme === "light" ? "#111827" : "#ffffff")};
+  color: ${(p) => (p.theme === "light" ? "black" : "#ffffff")};
 
   &[disabled] {
-    color: ${(p) => (p.theme === "light" ? "#111827" : "#ffffff")};
+    color: ${(p) => (p.theme === "light" ? "black" : "#ffffff")};
   }
 `;
 
@@ -184,7 +187,10 @@ export const WebsiteInput = styled.input<{
   padding: 16px;
   border: 2px solid transparent;
   border-radius: 10px;
-  background: ${(p) => (p.theme === "light" ? "rgba(67, 120, 255, 0.05)" : "rgba(67, 120, 255, 0.15)")};
+  background: ${(p) =>
+    p.theme === "light"
+      ? "rgba(67, 120, 255, 0.05)"
+      : "rgba(67, 120, 255, 0.15)"};
   color: #1f6feb;
   font-size: 16px;
   line-height: 150%;
@@ -197,7 +203,7 @@ export const WebsiteInput = styled.input<{
     `
     border-color: ${props.theme === "light" ? "#e5e7eb" : "#ffffff22"};
     background: ${props.theme === "light" ? "white" : "transparent"};
-    color: ${props.theme === "light" ? "#111827" : "white"};
+    color: ${props.theme === "light" ? "black" : "white"};
     
     &:focus {
       border-color: #1f6feb;
@@ -226,7 +232,10 @@ export const EditCheckboxList = styled.div`
   padding: 8px;
 `;
 
-export const EditCheckboxItem = styled.label<{ checked: boolean; theme: string }>`
+export const EditCheckboxItem = styled.label<{
+  checked: boolean;
+  theme: string;
+}>`
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -293,7 +302,7 @@ export const TechInput = styled.input<ThemeProps>`
   border-radius: 8px;
   font-size: 15px;
   background: ${(p) => (p.theme === "light" ? "white" : "transparent")};
-  color: ${(p) => (p.theme === "light" ? "#111827" : "white")};
+  color: ${(p) => (p.theme === "light" ? "black" : "white")};
   padding: 16px;
   box-sizing: border-box;
 
@@ -321,7 +330,10 @@ export const AddButton = styled.button`
   }
 `;
 
-export const DirectionEditContainer = styled.div<{ isEditing?: boolean; theme: string }>`
+export const DirectionEditContainer = styled.div<{
+  isEditing?: boolean;
+  theme: string;
+}>`
   border: 2px solid ${(p) => (p.theme === "light" ? "#e5e7eb" : "#ffffff22")};
   border-radius: 10px;
   background: transparent;
@@ -339,7 +351,7 @@ export const Select = styled.select<{ isEditing?: boolean; theme: string }>`
   border-radius: 10px;
   font-size: 16px;
   background: ${(p) => (p.theme === "light" ? "white" : "#212121")};
-  color: ${(p) => (p.theme === "light" ? "#111827" : "white")};
+  color: ${(p) => (p.theme === "light" ? "black" : "white")};
   appearance: none;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
   background-repeat: no-repeat;

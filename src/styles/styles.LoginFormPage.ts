@@ -33,7 +33,11 @@ export const InputWrapper = styled.div<{ error: boolean; theme: string }>`
     font-size: 16px;
     line-height: 150%;
     letter-spacing: 0.01em;
-    border: 2px solid ${(p) => (p.theme === "light" ? "rgba(0, 0, 0, 0.05)" : "rgba(255, 255, 255, 0.1)")};
+    border: 2px solid
+      ${(p) =>
+        p.theme === "light"
+          ? "rgba(0, 0, 0, 0.05)"
+          : "rgba(255, 255, 255, 0.1)"};
     border-radius: 14px;
     padding: 12px 16px;
     margin-bottom: 8px;
@@ -48,7 +52,7 @@ export const InputWrapper = styled.div<{ error: boolean; theme: string }>`
     left: 16px;
     top: 19px;
     color: #a2acb0;
-    background: ${(p) => (p.theme === "light" ? "transparent" : "#212121")}; 
+    background: ${(p) => (p.theme === "light" ? "#fbfbfb" : "#212121")};
     padding: 0 4px;
     font-size: 16px;
     pointer-events: none;
@@ -72,7 +76,8 @@ export const InputWrapper = styled.div<{ error: boolean; theme: string }>`
   }
 
   input:-webkit-autofill {
-    -webkit-text-fill-color: ${(p) => (p.theme === "light" ? "#000" : "#fff")} !important;
+    -webkit-text-fill-color: ${(p) =>
+      p.theme === "light" ? "#000" : "#fff"} !important;
     transition: background-color 9999s ease-in-out 0s;
   }
 

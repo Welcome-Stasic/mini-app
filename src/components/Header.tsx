@@ -36,10 +36,13 @@ const Header = observer(({ title, showClose = true }: HeaderProps) => {
           {theme === "light" ? "🌙" : "☀️"}
         </button>
       )}
-      {showClose && (
+      {showClose ? (
         <S.CloseButton theme={theme} onClick={() => navigate(-1)}>
           ×
         </S.CloseButton>
+      ) : (
+        <S.BlockHidden
+        ></S.BlockHidden>
       )}
       <S.Title>{title}</S.Title>
       <S.MenuButton theme={theme} onClick={() => setIsOpenMenu(!isOpenMenu)}>

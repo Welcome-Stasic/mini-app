@@ -75,7 +75,7 @@ export const CtaButton = styled.button<{
   font-size: 17px;
   cursor: pointer;
   background-image: ${({ gradient }) => gradient};
-  opacity: ${({ disabled }) => (disabled ? 0.7 : 1)};
+  opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
 `;
 
 export const BackButton = styled.button`
