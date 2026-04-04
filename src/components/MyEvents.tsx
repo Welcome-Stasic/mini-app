@@ -84,9 +84,17 @@ const MyEvents = observer(() => {
   //   const eventDate = parseEventDate("12.12.2027");
   //   return eventDate < today;
   // });
+  const currentEvents = myEventsStore.myEvents.filter(() => {
+    const eventDate = myEventsStore.myEvents;
+    return eventDate;
+  });
 
-  // const displayEvents = activeTab === "current" ? currentEvents : pastEvents;
-  const displayEvents = myEventsStore.myEvents;
+  const pastEvents = myEventsStore.myEvents.filter(() => {
+    return "";
+  });
+
+  const displayEvents = activeTab === "current" ? currentEvents : pastEvents;
+  // const displayEvents = myEventsStore.myEvents;
   if (isLoading) return <Loader />;
   if (myEventsStore.myEvents.length === 0) {
     return (

@@ -18,10 +18,8 @@ export const EventCardContainer = styled.div<{ theme: string }>`
   max-width: 358px;
   border-radius: 24px;
   overflow: hidden;
-  ${(p) =>
-    p.theme === "light"
-      ? "box-shadow: 0 1px 24px rgba(162, 89, 255, 0.12);"
-      : "box-shadow: 0px 32px 64px 0px #0000000A; box-shadow: 0px 0px 2px 1px #00000005;"}
+  box-shadow: 0px 32px 64px 0px #0000000a;
+  box-shadow: 0px 0px 2px 1px #00000005;
   display: flex;
   flex-direction: column;
   margin: auto;
@@ -33,9 +31,7 @@ export const EventCardContainer = styled.div<{ theme: string }>`
   &:hover {
     box-shadow: 0 1px 32px
       ${(p) =>
-        p.theme === "light"
-          ? "rgba(162, 89, 255, 0.18)"
-          : "rgba(0, 0, 0, 0.18)"};
+        p.theme === "light" ? "rgba(22, 20, 26, 0.18)" : "rgba(0, 0, 0, 0.18)"};
   }
 `;
 
