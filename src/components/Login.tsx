@@ -5,6 +5,7 @@ import { IconEye, IconEyeOff } from "../icon/icons";
 import { RouteName } from "../router/routes";
 import { useAuth } from "../hooks/account/useAuth";
 import * as S from "../styles/styles.LoginFormPage";
+import { useStore } from "../store/storeProvider";
 
 const emailRegex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 // const passwordRegex =
@@ -14,7 +15,8 @@ const passwordRegex = /^.{4,}$/;
 const LoginForm: React.FC = observer(() => {
   const signIn = useAuth();
   const navigate = useNavigate();
-
+  const { themeStore } = useStore();
+  const theme = themeStore.theme;
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState(false);
@@ -99,7 +101,7 @@ const LoginForm: React.FC = observer(() => {
 
         {/* Логин */}
         <div className="form-group">
-          <S.InputWrapper error={!!authError || loginError}>
+          <S.InputWrapper theme={theme} error={!!authError || loginError}>
             <input
               type="email"
               id="login"
@@ -117,7 +119,7 @@ const LoginForm: React.FC = observer(() => {
 
         {/* Пароль */}
         <div className="form-group">
-          <S.InputWrapper error={!!authError || passwordError}>
+          <S.InputWrapper theme={theme} error={!!authError || passwordError}>
             <input
               type={showPassword ? "text" : "password"}
               id="password"
@@ -162,7 +164,7 @@ const LoginForm: React.FC = observer(() => {
         )}
 
         {/* Кнопка входа */}
-        <S.SubmitButton
+        <S.SubmitButton theme={theme}
           type="submit"
           disabled={!isFormFilled || signIn.isPending}
         >

@@ -11,7 +11,7 @@ export const getEvents = async (): Promise<EventItem[]> => {
 };
 // Добавить ивент польщователю по id
 export const addEventToUser = async (id: string): Promise<void> => {
-    await apiClient.put(ADD_EVENT_TO_USER, { id });
+    await apiClient.put(ADD_EVENT_TO_USER, id );
 }
 // Получить ивенты пользователя
 export const getMyEvents = async (): Promise<EventItem[]> => {
@@ -20,6 +20,6 @@ export const getMyEvents = async (): Promise<EventItem[]> => {
 };
 // Удалить ивент у пользователя по id
 export const removmeEventById = async (id: string): Promise<void> => {
-    await apiClient.put(REMOVE_EVENT_FROM_USER, { id });
+    await apiClient.put(REMOVE_EVENT_FROM_USER, id );
 }
 

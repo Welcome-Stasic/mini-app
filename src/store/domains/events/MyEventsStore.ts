@@ -18,7 +18,12 @@ class MyEventsStore {
       console.log(error);
     }
   }
-
+  addEvents(event: EventItem): void {
+     this.myEvents = [...this.myEvents, event];
+  }
+  removeEvents(id: string): void {
+      this.myEvents = this.myEvents.filter(event => event.id !== id);
+  }
   isEventAdded = (eventId: string): boolean => {
     return this.myEvents.some((e) => e.id === eventId);
   };

@@ -1,7 +1,6 @@
 import { apiClient } from "../axios";
 import {
   CHANGE_AVATAR,
-  DELETE_AVATAR,
   GET_AVATAR,
   GET_USER,
   SIGN_IN,
@@ -27,9 +26,8 @@ export const signOut = async (): Promise<void> => {
   await apiClient.get(SIGN_OUT);
 };
 // Обновление пользователя
-export const updateUser = async (userData: IUpdateUser): Promise<any> => {
-  const response = await apiClient.put(UPDATE_ACCOUNT, userData);
-  return response.data;
+export const updateUser = async (userData: IUpdateUser): Promise<void> => {
+  await apiClient.put(UPDATE_ACCOUNT, userData);
 };
 // Обнолвение аватарки
 export const changeAvatar = async (avatar: File): Promise<string> => {
@@ -50,8 +48,4 @@ export const changeAvatar = async (avatar: File): Promise<string> => {
 export const getAvatar = async (): Promise<Blob> => {
   const response = await apiClient.get(GET_AVATAR, { responseType: "blob" });
   return response.data;
-};
-// Удалить аватарку
-export const deleteAvatar = async (): Promise<void> => {
-  await apiClient.delete(DELETE_AVATAR);
 };

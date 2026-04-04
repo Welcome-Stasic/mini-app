@@ -20,7 +20,7 @@ const EventDetail = observer(() => {
 
 
   const gradients: Record<string, string> = {
-    События: "linear-gradient(180deg, #0099FF, #FFFFFF)",
+    События: "linear-gradient(180deg, #0099FF)",
     Олимпиада: "linear-gradient(180deg, #FF9500, #FFBD61)",
     Конкурс: "linear-gradient(180deg, #7378FF, #ACAFFF)",
     Стажировка: "linear-gradient(180deg, #787878, #161616)",
@@ -45,9 +45,13 @@ const EventDetail = observer(() => {
 
   const handleToggle = () => {
     if (isAdded) {
+      myEventsStore.removeEvents(eventItem.id);
       removeMutation.mutate(eventItem.id);
+      alert(`Вы отписались от события ${eventItem.title}`)
     } else {
+      myEventsStore.addEvents(eventItem);
       addMutation.mutate(eventItem.id);
+      alert(`Успешно подписались на событие ${eventItem.title}`)
     }
   };
   return (
