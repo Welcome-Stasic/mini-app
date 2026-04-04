@@ -438,7 +438,7 @@ const Account = observer(() => {
               <S.Input
                 theme={theme}
                 isEditing={isEditing}
-                disabled={!isEditing}
+                readOnly={!isEditing}
                 value={isEditing ? form[key] : (form[key] ?? "")}
                 onFocus={() => setFocusedField(key)}
                 onBlur={() => setFocusedField(null)}
@@ -458,7 +458,7 @@ const Account = observer(() => {
             <S.TextareaWrapper theme={theme} isEditing={isEditing}>
               <S.Textarea
                 theme={theme}
-                disabled={!isEditing}
+                readOnly={!isEditing}
                 value={isEditing ? form.description : (form.description ?? "")}
                 onFocus={() => setFocusedField("about")}
                 onBlur={() => setFocusedField(null)}
