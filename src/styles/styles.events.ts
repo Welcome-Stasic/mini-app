@@ -136,7 +136,7 @@ export const EventsList = styled.div<{ empty?: boolean; bg?: string }>`
   display: ${({ empty }) => (empty ? "block" : "flex")};
   gap: 20px;
   overflow-x: ${({ empty }) => (empty ? "visible" : "auto")};
-  padding-bottom: ${({ empty }) => (empty ? "0" : "16px")};
+  padding-bottom: ${({ empty }) => (empty ? "0" : "30px")};
   scroll-behavior: smooth;
   scrollbar-width: none;
 

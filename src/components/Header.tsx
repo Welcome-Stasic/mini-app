@@ -6,6 +6,7 @@ import { useSignOut } from "../hooks/account/useLogOut";
 import { RouteName } from "../router/routes";
 import { useState } from "react";
 import { Loader } from "./loader";
+import { IconArrowLeft } from "../icon/icons";
 
 interface HeaderProps {
   title: string;
@@ -38,11 +39,10 @@ const Header = observer(({ title, showClose = true }: HeaderProps) => {
       )}
       {showClose ? (
         <S.CloseButton theme={theme} onClick={() => navigate(-1)}>
-          ×
+          <IconArrowLeft color={theme} />
         </S.CloseButton>
       ) : (
-        <S.BlockHidden
-        ></S.BlockHidden>
+        <S.BlockHidden></S.BlockHidden>
       )}
       <S.Title>{title}</S.Title>
       <S.MenuButton theme={theme} onClick={() => setIsOpenMenu(!isOpenMenu)}>

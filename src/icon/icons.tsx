@@ -1,10 +1,44 @@
 import type { IconBaseProps } from "../types/colors";
 import { colorMap } from "../types/colors";
 
-export enum iconColorsEnum {
-  primery = "" 
+// export enum iconColorsEnum {
+//   primery = "",
+// }
+export const IconArrowLeft = ({ color = "light" }: { color?: string }) => (
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M15 18L9 12L15 6"
+      stroke={color === "light" ? "#000000" : "#ffffff"}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+export const IconTick = () => {
+  return (
+    <svg
+      width="19"
+      height="14"
+      viewBox="0 0 19 14"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M18.6688 0.252401C19.0264 0.597574 19.0366 1.16733 18.6914 1.52499L7.2622 13.3676C7.09259 13.5434 6.85884 13.6426 6.6146 13.6426C6.37036 13.6426 6.13661 13.5434 5.967 13.3676L0.252401 7.44631C-0.0927723 7.08865 -0.0826502 6.51889 0.275009 6.17372C0.632669 5.82854 1.20243 5.83867 1.5476 6.19632L6.6146 11.4466L17.3962 0.275009C17.7414 -0.0826501 18.3111 -0.0927723 18.6688 0.252401Z"
+        fill="white"
+      />
+    </svg>
+  );
 };
-
 export const IconEyeOff = () => (
   <svg
     fill="#A2ACB0"

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "../styles/styles.AccountPage.ts";
-import { IconCop, IconCopy, IconEdit } from "../icon/icons.tsx";
+import { IconCop, IconCopy, IconEdit, IconTick } from "../icon/icons.tsx";
 
 import { RouteName } from "../router/routes.tsx";
 import { observer } from "mobx-react-lite";
@@ -146,9 +146,10 @@ const Account = observer(() => {
     const nameParts = form.fullName.split(" ").filter(Boolean);
     const [surname = "", name = "", patronymic = ""] = nameParts;
 
-    const directionNumber = form.direction
-      ? reverseDirectionMap[form.direction]
-      : undefined;
+    const directionNumber =
+      directionTags.length > 0
+        ? reverseDirectionMap[directionTags[0]]
+        : data.direction;
 
     const updates: IUpdateUser = {
       id: data.id,
@@ -215,7 +216,7 @@ const Account = observer(() => {
                   className="save"
                   onClick={handleSave}
                 >
-                  ✓
+                  <IconTick />
                 </S.AccountAction>
               </>
             )}
@@ -272,7 +273,7 @@ const Account = observer(() => {
                     </S.FieldLabel>
                     <S.EditCheckboxList>
                       {AVAILABLE_DIRECTIONS.map((opt) => {
-                        const checked = directionTags.includes(opt);
+                        const checked = directionTags[0] === opt;
                         return (
                           <S.EditCheckboxItem
                             theme={theme}
@@ -280,18 +281,13 @@ const Account = observer(() => {
                             checked={checked}
                           >
                             <input
-                              type="checkbox"
+                              type="radio"
+                              name="direction"
                               checked={checked}
                               onFocus={() => setFocusedField("direction")}
                               onBlur={() => setFocusedField(null)}
-                              onChange={(e) => {
-                                if (e.target.checked) {
-                                  setDirectionTags((prev) => [...prev, opt]);
-                                } else {
-                                  setDirectionTags((prev) =>
-                                    prev.filter((v) => v !== opt),
-                                  );
-                                }
+                              onChange={() => {
+                                setDirectionTags([opt]);
                               }}
                             />
                             <span>{opt}</span>
@@ -396,7 +392,7 @@ const Account = observer(() => {
               }
               onFocus={() => setFocusedField("website")}
               onBlur={() => setFocusedField(null)}
-              onChange={(e) => updateField("telegramLink", e.target.value)}
+              onChange={(e) => updateField("portfolioLink", e.target.value)}
               onClick={() => {
                 if (!isEditing && form?.telegramLink) {
                   window.open(form.telegramLink, "_blank");

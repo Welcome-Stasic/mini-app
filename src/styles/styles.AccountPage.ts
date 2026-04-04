@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 
-// Помогаем типизации для переиспользования
 interface ThemeProps {
   theme: string;
 }
@@ -12,7 +11,7 @@ export const AccountCard = styled.div<ThemeProps>`
   padding-bottom: 76px;
   background: ${(p) => (p.theme === "light" ? "#fbfbfb" : "#212121")};
   border-radius: 16px;
-  color: ${(p) => (p.theme === "light" ? "black" : "#ffffff")};
+  color: ${(p) => (p.theme === "light" ? "#000000" : "#ffffff")};
 `;
 
 export const AccountHeader = styled.div`
@@ -123,7 +122,7 @@ export const Input = styled.input<{ isEditing?: boolean; theme: string }>`
   border: 2px solid ${(p) => (p.theme === "light" ? "#e5e7eb" : "#ffffff22")};
   border-radius: 10px;
   background: ${(p) => (p.theme === "light" ? "#ffffff" : "transparent")};
-  color: ${(p) => (p.theme === "light" ? "black" : "#ffffff")};
+  color: ${(p) => (p.theme === "light" ? "#000000" : "#ffffff")};
   font-size: 16px;
   line-height: 150%;
   box-sizing: border-box;
@@ -166,10 +165,10 @@ export const Textarea = styled.textarea<{ theme: string }>`
   background: transparent;
   font-size: 16px;
   line-height: 150%;
-  color: ${(p) => (p.theme === "light" ? "black" : "#ffffff")};
+  color: ${(p) => (p.theme === "light" ? "#000000" : "#ffffff")};
 
   &[disabled] {
-    color: ${(p) => (p.theme === "light" ? "black" : "#ffffff")};
+    color: ${(p) => (p.theme === "light" ? "#000000" : "#ffffff")};
   }
 `;
 
@@ -203,7 +202,7 @@ export const WebsiteInput = styled.input<{
     `
     border-color: ${props.theme === "light" ? "#e5e7eb" : "#ffffff22"};
     background: ${props.theme === "light" ? "white" : "transparent"};
-    color: ${props.theme === "light" ? "black" : "white"};
+    color: ${props.theme === "light" ? "#000000" : "white"};
     
     &:focus {
       border-color: #1f6feb;
@@ -302,7 +301,7 @@ export const TechInput = styled.input<ThemeProps>`
   border-radius: 8px;
   font-size: 15px;
   background: ${(p) => (p.theme === "light" ? "white" : "transparent")};
-  color: ${(p) => (p.theme === "light" ? "black" : "white")};
+  color: ${(p) => (p.theme === "light" ? "#000000" : "white")};
   padding: 16px;
   box-sizing: border-box;
 
@@ -351,7 +350,7 @@ export const Select = styled.select<{ isEditing?: boolean; theme: string }>`
   border-radius: 10px;
   font-size: 16px;
   background: ${(p) => (p.theme === "light" ? "white" : "#212121")};
-  color: ${(p) => (p.theme === "light" ? "black" : "white")};
+  color: ${(p) => (p.theme === "light" ? "#000000" : "white")};
   appearance: none;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
   background-repeat: no-repeat;
