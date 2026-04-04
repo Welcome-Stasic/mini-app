@@ -40,8 +40,7 @@ export const AccountAction = styled.button<{ theme: string }>`
   display: grid;
   place-items: center;
   cursor: pointer;
-  background: ${(p) =>
-    p.theme === "light" ? "rgb(251, 251, 251)" : "#2990FF26"};
+  background: ${(p) => (p.theme === "light" ? "#4378FF1A" : "#2990FF26")};
   color: #1f6feb;
 
   &.save {

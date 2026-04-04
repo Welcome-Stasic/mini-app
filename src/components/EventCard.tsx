@@ -13,10 +13,7 @@ const EventCard: React.FC<EventCardProps> = observer(
     const navigate = useNavigate();
 
     return (
-      <S.EventCardContainer
-        theme={themeStore.theme}
-        onClick={() => navigate(`/events/${id}`)}
-      >
+      <S.EventCardContainer onClick={() => navigate(`/events/${id}`)}>
         {isNew && <S.BadgeNew theme={themeStore.theme}>NEW</S.BadgeNew>}
         <S.EventImage imageUrl={imageUrl} eventType={type} />
         <S.EventInfo theme={themeStore.theme}>

@@ -13,7 +13,7 @@ const gradientsByType: Record<string, string> = {
   Вакансия: "linear-gradient(135deg, #87C0FF, #007AFF)",
 };
 
-export const EventCardContainer = styled.div<{ theme: string }>`
+export const EventCardContainer = styled.div`
   min-width: 340px;
   max-width: 358px;
   border-radius: 24px;
@@ -27,12 +27,6 @@ export const EventCardContainer = styled.div<{ theme: string }>`
   position: relative;
   isolation: isolate;
   cursor: pointer;
-
-  &:hover {
-    box-shadow: 0 1px 32px
-      ${(p) =>
-        p.theme === "light" ? "rgba(22, 20, 26, 0.18)" : "rgba(0, 0, 0, 0.18)"};
-  }
 `;
 
 export const BadgeNew = styled.span<{ theme: string }>`
