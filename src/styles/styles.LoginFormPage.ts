@@ -37,7 +37,7 @@ export const InputWrapper = styled.div<{ error: boolean; theme: string }>`
     border-radius: 14px;
     padding: 12px 16px;
     margin-bottom: 8px;
-    background: transparent; /* Тот самый фон */
+    background: transparent;
     color: ${(p) => (p.theme === "light" ? "#111827" : "#ffffff")};
     box-sizing: border-box;
     transition: border-color 0.2s;
@@ -48,8 +48,7 @@ export const InputWrapper = styled.div<{ error: boolean; theme: string }>`
     left: 16px;
     top: 19px;
     color: #a2acb0;
-    /* Фон лейбла должен совпадать с фоном страницы под карточкой */
-    background: ${(p) => (p.theme === "light" ? "#fff" : "#212121")}; 
+    background: ${(p) => (p.theme === "light" ? "transparent" : "#212121")}; 
     padding: 0 4px;
     font-size: 16px;
     pointer-events: none;
@@ -72,7 +71,6 @@ export const InputWrapper = styled.div<{ error: boolean; theme: string }>`
     border-color: #007aff;
   }
 
-  /* Исправление автозаполнения для темной темы */
   input:-webkit-autofill {
     -webkit-text-fill-color: ${(p) => (p.theme === "light" ? "#000" : "#fff")} !important;
     transition: background-color 9999s ease-in-out 0s;
