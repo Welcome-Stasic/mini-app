@@ -1,7 +1,5 @@
-```markdown
-# the-point-of-growth 🚀
 
-the-point-of-growth is a modern React application built with TypeScript and Vite, designed to provide a dynamic and engaging user experience. It leverages the power of React Query for efficient data fetching and management, MobX for state management, and Emotion for styled components, offering a robust foundation for building complex UIs.
+# tg-mini-app 🚀
 
 ## ✨ Features
 
@@ -155,4 +153,3 @@ Please ensure your code is well-formatted and passes all linting checks.
 ## 📜 License
 
 This project is licensed under the [MIT License](LICENSE).
-```
