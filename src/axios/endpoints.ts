@@ -19,6 +19,7 @@ export const CREATE_EVENT = "/events/create-event";
 export const DELETE_EVENT = "/events/delete-event/";
 export const UPDATE_EVENT = "/events/update-event";
 export const GET_USER_EVENTS = "/events/get-user-events/";
+export const GET_EVENT_IMAGE = "/events/get-image";
 
 export const GET_SUBSCRIBED_USERS = "/get-subscribed-users";
 export const SUBSCRIBE = "/subscribe-to-notifications";

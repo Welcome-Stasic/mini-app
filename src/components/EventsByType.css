@@ -14,7 +14,8 @@
 }
 
 #events-header-title-type {
-  font-size: 64px;
+  margin-top: 24px;
+  font-size: 50px;
   background: linear-gradient(132deg, #fff 0%, rgba(255, 255, 255, 0) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: rgba(255, 255, 255, 0.72);

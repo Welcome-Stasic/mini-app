@@ -9,6 +9,7 @@ export type EventItem = {
   isNew?: boolean;
   tags?: string[];
   imageUrl?: string;
+  createdAt: string;
 };
 type eventType = number | undefined;
 

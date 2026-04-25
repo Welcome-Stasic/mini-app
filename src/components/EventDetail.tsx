@@ -7,6 +7,7 @@ import { useEvents } from "../hooks/events/useEvents";
 import { useAddEventUser } from "../hooks/events/useAddEventUser";
 import { useRemoveEventUser } from "../hooks/events/useRemoveEventUser";
 import { Loader } from "./loader";
+import { useEventImage } from "../hooks/events/useEventImage";
 
 const EventDetail = observer(() => {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ const EventDetail = observer(() => {
   const addMutation = useAddEventUser();
   const removeMutation = useRemoveEventUser();
   const paramsMy = searchParams.get("from") === "my";
+  const { data: firstImage } = useEventImage(id!, 1);
   const gradients: Record<string, string> = {
     События: "linear-gradient(180deg, #0099FF)",
     Олимпиада: "linear-gradient(180deg, #FF9500, #FFBD61)",
@@ -76,7 +78,23 @@ const EventDetail = observer(() => {
 
   return (
     <S.Container theme={theme}>
-      <S.Header gradient={gradient} />
+      <S.Header gradient={gradient} style={{ position: "relative" }}>
+        {firstImage && (
+          <img
+            src={firstImage}
+            alt="event header"
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              zIndex: 1,
+            }}
+          />
+        )}
+      </S.Header>
       <S.Grid>
         <S.Card>
           <S.Info theme={theme}>

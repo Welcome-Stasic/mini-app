@@ -4,18 +4,28 @@ import type { EventItem } from "../types/events";
 import * as S from "../styles/styles.eventsCard";
 import { useStore } from "../store/storeProvider";
 import { observer } from "mobx-react-lite";
+import { useEventImage } from "../hooks/events/useEventImage";
 
 interface EventCardProps extends EventItem {}
 
 const EventCard: React.FC<EventCardProps> = observer(
-  ({ id, title, type, company, date, isNew, tags, imageUrl }) => {
+  ({ id, title, type, company, date, createdAt, tags, imageUrl }) => {
     const { themeStore } = useStore();
     const navigate = useNavigate();
-
+    const { data: firstImage } = useEventImage(id, 1);
+    const isNewEvent: boolean =
+      Date.now() - new Date(createdAt).getTime() < 24 * 60 * 60 * 1000;
     return (
       <S.EventCardContainer onClick={() => navigate(`/events/${id}`)}>
-        {isNew && <S.BadgeNew theme={themeStore.theme}>NEW</S.BadgeNew>}
-        <S.EventImage imageUrl={imageUrl} eventType={type} />
+        {isNewEvent ? (
+          <S.BadgeNew theme={themeStore.theme}>NEW</S.BadgeNew>
+        ) : (
+          ""
+        )}
+        <S.EventImage
+          imageUrl={firstImage || imageUrl}
+          eventType={type ? type : ""}
+        />
         <S.EventInfo theme={themeStore.theme}>
           <S.EventTitle>{title}</S.EventTitle>
           <S.EventType>{type}</S.EventType>

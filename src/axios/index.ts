@@ -1,6 +1,22 @@
-import { signIn, getCurrentUser, signOut, updateUser, getAvatar, changeAvatar } from "./requests/auth";
-import { addEventToUser, getEvents, getMyEvents, removmeEventById } from "./requests/events";
-import { subscribeNotification, unsubscribeNotification } from "./requests/notification";
+import {
+  signIn,
+  getCurrentUser,
+  signOut,
+  updateUser,
+  getAvatar,
+  changeAvatar,
+} from "./requests/auth";
+import {
+  addEventToUser,
+  getEventImage,
+  getEvents,
+  getMyEvents,
+  removmeEventById,
+} from "./requests/events";
+import {
+  subscribeNotification,
+  unsubscribeNotification,
+} from "./requests/notification";
 
 export const API = {
   auth: {
@@ -9,16 +25,17 @@ export const API = {
     signOut,
     updateUser,
     getAvatar,
-    changeAvatar
+    changeAvatar,
   },
   events: {
     getEvents,
     addEventToUser,
     getMyEvents,
-    removmeEventById
+    removmeEventById,
+    getEventImage,
   },
   notification: {
     subscribeNotification,
-    unsubscribeNotification
-  }
+    unsubscribeNotification,
+  },
 };

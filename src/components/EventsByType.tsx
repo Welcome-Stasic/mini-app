@@ -52,6 +52,13 @@ function EventsByType({ type, events }: EventsByTypeProps) {
     Стажировка: "shape-intern",
     Вакансия: "shape-vacancy",
   };
+  const nameGroupeMap: Record<string, string> = {
+    События: "События",
+    Олимпиада: "Олимпиады",
+    Конкурс: "Конкурсы",
+    Стажировка: "Стажировки",
+    Вакансия: "Вакансии",
+  };
   const shapeClass = shapeClassByType[type] || "shape-default";
 
   return (
@@ -63,8 +70,7 @@ function EventsByType({ type, events }: EventsByTypeProps) {
             <img className="header-figure-photo" src={headerImage} alt={type} />
           </div>
           <div>
-            <h1>Раздел</h1>
-            <h1 id="events-header-title-type">{type}</h1>
+            <h1 id="events-header-title-type">{nameGroupeMap[type]}</h1>
           </div>
         </div>
       </div>

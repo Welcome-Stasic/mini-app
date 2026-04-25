@@ -8,8 +8,8 @@ export interface UserProfile {
   id: string;
   fullName: string;
   age: number;
-  direction: number; // например: Frontend
-  course?: string; // например: 2 курс
+  direction: number;
+  course?: string;
   avatarUrl?: string;
   website?: string;
   username: string;
@@ -17,7 +17,6 @@ export interface UserProfile {
   phone?: string;
   about?: string;
   techStack?: string[];
-  // Дополнительные поля, которые могут прийти с бэка
   birthDate?: string;
   university?: string;
   faculty?: string;
@@ -35,7 +34,6 @@ export interface UserContextType {
   user: UserProfile | null;
   setUser: (user: UserProfile | null) => void;
   isAuthenticated: boolean;
-  // Методы для работы с API
   fetchUserProfile: (userId: string) => Promise<void>;
   updateUserProfile: (updates: Partial<UserProfile>) => Promise<void>;
 }
