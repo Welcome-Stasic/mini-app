@@ -79,7 +79,7 @@ importers:
         specifier: ^8.35.1
         version: 8.58.1(eslint@9.39.4)(typescript@5.8.3)
       vite:
-        specifier: ^7.0.4
+        specifier: ^7.3.2
         version: 7.3.2(@types/node@25.5.2)
 
 packages:
