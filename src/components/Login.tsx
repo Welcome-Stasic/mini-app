@@ -158,8 +158,7 @@ const LoginForm: React.FC = observer(() => {
         {/* Сообщение об ошибке авторизации */}
         {authError && (
           <S.InputHint>
-            {/* {authError.message && "Неверный логин или пароль"} */}
-            {authError.message}
+            Почта или пароль не правильные
           </S.InputHint>
         )}
 

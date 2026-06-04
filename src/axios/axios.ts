@@ -13,6 +13,11 @@ export const apiClient = axios.create({
 
 apiClient.interceptors.response.use(
   (response: AxiosResponse) => {
+    // Пропускаем обработку для Blob (картинки)
+    if (response.data instanceof Blob) {
+      return response;
+    }
+
     const apiResponse = response.data as IApiResponse<unknown>;
     if (
       apiResponse &&
@@ -29,9 +34,14 @@ apiClient.interceptors.response.use(
     return response;
   },
   (error: AxiosError) => {
+    // Не выбрасываем 404 для запросов картинок
+    if (error.response?.status === 404 && error.config?.url?.includes('get-image')) {
+      return Promise.resolve(error.response as AxiosResponse);
+    }
+    
     if (error.response?.data) {
       const apiResponse = error.response.data as IApiResponse<unknown>;
-      if (apiResponse && "success" in apiResponse) {
+      if (apiResponse && typeof apiResponse === "object" && "success" in apiResponse) {
         return Promise.reject(apiResponse);
       }
     }

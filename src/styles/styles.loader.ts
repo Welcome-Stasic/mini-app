@@ -20,6 +20,7 @@ export const ContainerLoader = styled.div<{ theme: string }>`
   align-items: center;
   justify-content: center;
   background-color: ${(p) => (p.theme === "light" ? "#ffffff" : "#212121")};
+  z-index: 999;
 `;
 export const SVGLoader = styled.svg`
   width: 3.25em;

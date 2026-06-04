@@ -37,11 +37,12 @@ export const getEventImage = async (
       `${GET_EVENT_IMAGE}/${eventId}/${index}`,
       {
         responseType: "blob",
+        validateStatus: (status) => status < 500,
       },
     );
+    if (response.status === 404) return null;
     return response.data;
   } catch (error: any) {
-    if (error.response?.status === 404) return null;
-    throw error;
+    return null;
   }
 };

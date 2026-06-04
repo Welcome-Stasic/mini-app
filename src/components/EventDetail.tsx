@@ -1,5 +1,6 @@
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import * as S from "../styles/styles.EventDetailPage";
+import { Alert, Box } from "@mui/material";
 
 import { useStore } from "../store/storeProvider";
 import { observer } from "mobx-react-lite";
@@ -8,6 +9,7 @@ import { useAddEventUser } from "../hooks/events/useAddEventUser";
 import { useRemoveEventUser } from "../hooks/events/useRemoveEventUser";
 import { Loader } from "./loader";
 import { useEventImage } from "../hooks/events/useEventImage";
+import { useAlert } from "../hooks/useAlert";
 
 const EventDetail = observer(() => {
   const navigate = useNavigate();
@@ -21,6 +23,7 @@ const EventDetail = observer(() => {
   const removeMutation = useRemoveEventUser();
   const paramsMy = searchParams.get("from") === "my";
   const { data: firstImage } = useEventImage(id!, 1);
+  const { alert, showAlert, closeAlert } = useAlert();
   const gradients: Record<string, string> = {
     События: "linear-gradient(180deg, #0099FF)",
     Олимпиада: "linear-gradient(180deg, #FF9500, #FFBD61)",
@@ -49,12 +52,16 @@ const EventDetail = observer(() => {
   const handleToggle = () => {
     if (isAdded) {
       myEventsStore.removeEvents(eventItem.id);
-      removeMutation.mutate(eventItem.id);
-      alert(`Вы отписались от события ${eventItem.title}`);
+      removeMutation.mutate(eventItem.id, {
+        onSuccess: () => {
+          showAlert(`Вы отписались от события ${eventItem.title}`, "success");
+          setTimeout(() => navigate(-1), 1000);
+        },
+      });
     } else {
       myEventsStore.addEvents(eventItem);
       addMutation.mutate(eventItem.id);
-      alert(`Успешно подписались на событие ${eventItem.title}`);
+      showAlert(`Успешно подписались на событие ${eventItem.title}`, "success");
     }
   };
   const btnText = () => {
@@ -78,6 +85,51 @@ const EventDetail = observer(() => {
 
   return (
     <S.Container theme={theme}>
+      {alert.open && (
+        <Box
+          sx={{
+            position: "fixed",
+            top: 16,
+            left: 16,
+            right: 16,
+            zIndex: 1300,
+            maxWidth: "calc(100% - 32px)",
+            animation: "slideDown 0.3s ease-in-out",
+            "@keyframes slideDown": {
+              from: {
+                opacity: 0,
+                transform: "translateY(-20px)",
+              },
+              to: {
+                opacity: 1,
+                transform: "translateY(0)",
+              },
+            },
+          }}
+        >
+          <Alert
+            onClose={closeAlert}
+            icon={false}
+            severity={alert.severity}
+            variant="filled"
+            sx={{
+              animation: "slideDown 0.3s ease-in-out",
+              backgroundColor:
+                alert.severity === "success"
+                  ? "#4CAF50"
+                  : alert.severity === "error"
+                    ? "#f44336"
+                    : alert.severity === "warning"
+                      ? "#ff9800"
+                      : "#2196F3",
+              color: "white",
+              fontWeight: 500,
+            }}
+          >
+            {alert.message}
+          </Alert>
+        </Box>
+      )}
       <S.Header gradient={gradient} style={{ position: "relative" }}>
         {firstImage && (
           <img

@@ -18,8 +18,7 @@ export const EventCardContainer = styled.div`
   max-width: 358px;
   border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0px 32px 64px 0px #0000000a;
-  box-shadow: 0px 0px 2px 1px #00000005;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   margin: auto;

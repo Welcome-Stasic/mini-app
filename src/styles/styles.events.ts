@@ -7,7 +7,6 @@ export const AllEventsContainer = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-  padding-bottom: 70px;
 `;
 
 export const Banner = styled.div`
@@ -152,5 +151,3 @@ export const EmptyPlaceholder = styled.div`
   text-align: center;
   font-size: 1rem;
 `;
-
-

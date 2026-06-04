@@ -244,10 +244,15 @@ export const EditCheckboxItem = styled.label<{
   font-weight: 600;
   cursor: pointer;
   background: ${(p) => {
-    if (p.checked) return p.theme === "light" ? "#eef2ff" : "#1f6feb44";
+    if (p.checked) return "#4378FF66";
     return p.theme === "light" ? "#f3f4f6" : "#ffffff11";
   }};
-  color: ${(p) => (p.theme === "light" ? "#4b5563" : "#ffffffcc")};
+  color: ${(p) => {
+    if (p.checked) return "#1f6feb";
+    return p.theme === "light" ? "#4b5563" : "#ffffffcc";
+  }};
+  border: ${(p) => p.checked ? "2px solid #4378FF" : "none"};
+  transition: all 0.2s ease;
 
   input {
     display: none;

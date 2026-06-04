@@ -75,11 +75,12 @@ const Account = observer(() => {
   }, [avatarBlob]);
 
   useEffect(() => {
-    if (data) {
-      let directionStr = "";
-      if (typeof data.direction === "number") {
-        directionStr = directionName[data.direction] ?? "";
-      }
+    if (data && !isEditing) {
+      const directionNum =
+        Array.isArray(data.direction) && data.direction.length > 0
+          ? data.direction[0]
+          : 0;
+      const directionStr = directionName[directionNum] || "";
       const fullName = [data.surname, data.name, data.patronymic]
         .filter(Boolean)
         .join(" ");
@@ -88,19 +89,19 @@ const Account = observer(() => {
         ? data.skills.join(", ")
         : "";
 
-      setForm({
+      setForm((prev) => ({
+        ...prev,
         userName: data.username ?? "",
         fullName: fullName,
         age: String(data.age ?? ""),
         course: String(data.course ?? ""),
-        phone: "+7(922)123-12-12",
         direction: directionStr,
         telegramLink: data.telegramLink ?? "",
         portfolioLink: data.portfolioLink ?? "",
         email: data.email ?? "",
         description: data.description ?? "",
         skills: skillsStr,
-      });
+      }));
       setDirectionTags(directionStr ? [directionStr] : []);
       setTechTags(data.skills ?? []);
     }
@@ -149,7 +150,9 @@ const Account = observer(() => {
     const directionNumber =
       directionTags.length > 0
         ? reverseDirectionMap[directionTags[0]]
-        : data.direction;
+        : Array.isArray(data.direction) && data.direction.length > 0
+          ? data.direction[0]
+          : 0;
 
     const updates: IUpdateUser = {
       id: data.id,
@@ -163,7 +166,11 @@ const Account = observer(() => {
       portfolioLink: form.portfolioLink || data.portfolioLink,
       isSubscribedToNotifications: false,
       age: form.age ? Number(form.age) : data.age,
-      direction: directionNumber ?? data.direction,
+      direction:
+        directionNumber ??
+        (Array.isArray(data.direction) && data.direction.length > 0
+          ? data.direction[0]
+          : 0),
       course: form.course ? Number(form.course) : Number(data.course),
       skills: techTags.length ? techTags : data.skills,
       userRole: 2,
@@ -288,6 +295,7 @@ const Account = observer(() => {
                               onBlur={() => setFocusedField(null)}
                               onChange={() => {
                                 setDirectionTags([opt]);
+                                updateField("direction", opt);
                               }}
                             />
                             <span>{opt}</span>
