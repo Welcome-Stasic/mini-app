@@ -1,7 +1,7 @@
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import * as S from "../styles/styles.EventDetailPage";
 import { Alert, Box } from "@mui/material";
-
+import { useWebHaptics } from "web-haptics/react";
 import { useStore } from "../store/storeProvider";
 import { observer } from "mobx-react-lite";
 import { useEvents } from "../hooks/events/useEvents";
@@ -16,6 +16,7 @@ const EventDetail = observer(() => {
   const { id } = useParams();
   const { myEventsStore, themeStore } = useStore();
   const theme = themeStore.theme;
+  const { trigger } = useWebHaptics();
   const [searchParams] = useSearchParams();
   const { data: events, isLoading } = useEvents();
   const eventItem = events?.find((e) => e.id === id);
@@ -50,6 +51,7 @@ const EventDetail = observer(() => {
   const isAdded = myEventsStore.isEventAdded(eventItem?.id);
 
   const handleToggle = () => {
+    trigger();
     if (isAdded) {
       myEventsStore.removeEvents(eventItem.id);
       removeMutation.mutate(eventItem.id, {
