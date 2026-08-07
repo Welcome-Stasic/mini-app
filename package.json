@@ -22,7 +22,7 @@
     "mobx-react-lite": "^4.1.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router-dom": "^6.30.3",
+    "react-router-dom": "^6.30.4",
     "web-haptics": "^0.0.6"
   },
   "devDependencies": {
