@@ -1,14 +1,14 @@
-import React from "react";
+import React, { memo } from "react";
 import { useNavigate } from "react-router-dom";
 import type { EventItem } from "../types/events";
 import * as S from "../styles/styles.eventsCard";
 import { useStore } from "../store/storeProvider";
 import { observer } from "mobx-react-lite";
-import { useEventImage } from "../hooks/events/useEventImage";
+import { useEventImage } from "../hooks/events/useEventImage.ts";
 
 interface EventCardProps extends EventItem {}
 
-const EventCard: React.FC<EventCardProps> = observer(
+const EventCard: React.FC<EventCardProps> = memo(observer(
   ({ id, title, type, company, date, createdAt, tags, imageUrl }) => {
     const { themeStore } = useStore();
     const navigate = useNavigate();
@@ -44,6 +44,6 @@ const EventCard: React.FC<EventCardProps> = observer(
       </S.EventCardContainer>
     );
   },
-);
+));
 
 export default EventCard;

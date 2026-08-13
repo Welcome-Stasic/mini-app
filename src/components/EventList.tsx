@@ -1,4 +1,4 @@
-import React, { type ComponentType } from "react";
+import React, { memo, type ComponentType } from "react";
 import { EventSection } from "./EventSection";
 import type { EventItem } from "../types/events";
 import type { IconBaseProps } from "../types/colors";
@@ -10,7 +10,7 @@ interface EventListProps {
   onOpenGroup: (type: string) => void;
 }
 
-export const EventList: React.FC<EventListProps> = ({
+export const EventList: React.FC<EventListProps> = memo(({
   eventsByType,
   allTypes,
   iconByType,
@@ -34,4 +34,4 @@ export const EventList: React.FC<EventListProps> = ({
       })}
     </>
   );
-};
+});

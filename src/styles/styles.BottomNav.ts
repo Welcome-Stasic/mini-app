@@ -25,5 +25,4 @@ export const NavItem = styled.div<{ active: boolean }>`
   font-size: 13px;
   font-weight: 500;
   gap: 2px;
-  transition: color 0.2s;
 `;

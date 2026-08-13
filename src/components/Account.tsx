@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "../styles/styles.AccountPage.ts";
 import { IconCop, IconCopy, IconEdit, IconTick } from "../icon/icons.tsx";
@@ -6,11 +6,11 @@ import { IconCop, IconCopy, IconEdit, IconTick } from "../icon/icons.tsx";
 import { RouteName } from "../router/routes.tsx";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../store/storeProvider.tsx";
-import { useUpdateUser } from "../hooks/account/useUpdateUser.tsx";
+import { useUpdateUser } from "../hooks/account/useUpdateUser.ts";
 import { Loader } from "./loader.tsx";
 import type { IUpdateUser } from "../types/user.ts";
-import { useGetAvatar } from "../hooks/account/useGetAvatar.tsx";
-import { useChangeAvatar } from "../hooks/account/useChangeAvatar.tsx";
+import { useGetAvatar } from "../hooks/account/useGetAvatar.ts";
+import { useChangeAvatar } from "../hooks/account/useChangeAvatar.ts";
 
 const directionName: Record<number, string> = {
   0: "Frontend",
@@ -18,7 +18,7 @@ const directionName: Record<number, string> = {
   2: "UX/UI",
 };
 
-const Account = observer(() => {
+const Account = memo(observer(() => {
   const changeAvatar = useChangeAvatar();
   const updateUser = useUpdateUser();
   const { userStore, themeStore } = useStore();
@@ -560,6 +560,6 @@ const Account = observer(() => {
       </S.AccountCard>
     </S.AccountContainer>
   );
-});
+}));
 
 export default Account;

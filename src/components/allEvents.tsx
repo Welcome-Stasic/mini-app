@@ -1,4 +1,4 @@
-import { useState, useEffect, type ComponentType, useMemo } from "react";
+import { useState, useEffect, type ComponentType, useMemo, useCallback } from "react";
 import EventsByType from "../components/EventsByType";
 import {
   IconActions,
@@ -17,7 +17,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { RouteName } from "../router/routes";
 import { useStore } from "../store/storeProvider";
 import { observer } from "mobx-react-lite";
-import { useEvents } from "../hooks/events/useEvents";
+import { useEvents } from "../hooks/events/useEvents.ts";
 import { Loader } from "./loader";
 
 const AllEvents = observer(() => {
@@ -41,30 +41,33 @@ const AllEvents = observer(() => {
     bannerSlides[0],
   ];
 
-  const allTypes = [
+  const allTypes = useMemo(() => [
     "Олимпиада",
     "Конкурс",
     "Стажировка",
     "Вакансия",
     "События",
-  ];
+  ], []);
 
   const slugToType = useMemo(() => {
     return Object.fromEntries(allTypes.map((t) => [toTranslit(t), t]));
   }, []);
 
-  const eventsByType: Record<string, EventItem[]> = {};
-  allTypes.forEach((type) => {
-    eventsByType[type] = events.filter((e) => e.type === type);
-  });
+  const eventsByType = useMemo(() => {
+    const result: Record<string, EventItem[]> = {};
+    allTypes.forEach((type) => {
+      result[type] = events.filter((e) => e.type === type);
+    });
+    return result;
+  }, [events, allTypes]);
 
-  const iconByType: Record<string, ComponentType<IconBaseProps>> = {
-    Олимпиада: IconActions,
-    Конкурс: IconChannel,
-    Стажировка: IconDevices,
-    Вакансия: IconFolder,
-    События: IconCalendar,
-  };
+const iconByType = useMemo<Record<string, ComponentType<IconBaseProps>>>(() => ({
+  Олимпиада: IconActions,
+  Конкурс: IconChannel,
+  Стажировка: IconDevices,
+  Вакансия: IconFolder,
+  События: IconCalendar,
+}), []);
 
   const originalType = slug ? slugToType[slug] : null;
 
@@ -103,10 +106,10 @@ const AllEvents = observer(() => {
     setTimeout(() => setIsAutoPlaying(true), 5000);
   };
 
-  const handleShowAll = (type: string) => {
+  const handleShowAll = useCallback((type: string) => {
     navigate(`${RouteName.ALLEVENTS}/${toTranslit(type)}`);
     setIsAutoPlaying(false);
-  };
+  }, [navigate]);
 
   // const handleBackToAll = () => {
   //   setSelectedType(null);

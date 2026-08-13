@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useCallback, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 // import '../events/AllEvents.css';
@@ -6,19 +6,19 @@ import "./EventsByType.css";
 import "./MyEvents.css";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../store/storeProvider";
-import { useMyEvents } from "../hooks/events/useMyEvents";
+import { useMyEvents } from "../hooks/events/useMyEvents.ts";
 import { Loader } from "./loader";
 
-const MyEvents = observer(() => {
+export const MyEvents = memo(observer(() => {
   const { myEventsStore } = useStore();
   const { isLoading } = useMyEvents();
 
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<"current" | "past">("current");
 
-  const handleEventClick = (eventId: string) => {
+  const handleEventClick = useCallback((eventId: string) => {
     navigate(`/events/${eventId}?from=my`);
-  };
+  }, [navigate]);
 
   // Функция для определения градиента по типу события (используем те же градиенты, что и в EventDetail)
   const getEventTypeGradient = (type: string): string => {
@@ -169,6 +169,4 @@ const MyEvents = observer(() => {
       )}
     </div>
   );
-});
-
-export default MyEvents;
+}));

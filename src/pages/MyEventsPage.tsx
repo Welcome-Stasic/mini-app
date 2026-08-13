@@ -1,4 +1,4 @@
-import MyEvents from "../components/MyEvents";
+import { MyEvents } from "../components/MyEvents";
 
 function MyEventsPage() {
   return (
