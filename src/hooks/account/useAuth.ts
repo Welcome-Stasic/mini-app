@@ -10,16 +10,13 @@ export const useAuth = () => {
 
   return useMutation({
     mutationFn: API.auth.signIn,
-    onSuccess: async () => {
-      try {
-        const user = await queryClient.fetchQuery<UserProfile>({
-          queryKey: userKeys.profile(),
-          queryFn: API.auth.getCurrentUser,
-        });
-        userStore.setUser(user);
-      } catch (error) {
-        console.error(error);
-      }
+    onSuccess: () => {
+      queryClient.fetchQuery<UserProfile>({
+        queryKey: userKeys.profile(),
+        queryFn: API.auth.getCurrentUser
+      })
+      .then(user => userStore.setUser(user))
+      .catch(err => console.error(err));
     },
     onError: (error) => {
       console.error(error);

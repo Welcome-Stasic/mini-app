@@ -11,6 +11,7 @@ import { useStore } from "../store/storeProvider";
 import { observer } from "mobx-react-lite";
 import { useUser } from "../hooks/account/useUser";
 import { Loader } from "../components/loader";
+import { useEffect } from "react";
 
 interface IRoutes {
   path?: string;
@@ -39,8 +40,12 @@ export const privateRout: IRoutes[] = [
 
 const AppRoutes = observer(() => {
   const { userStore } = useStore();
-  const { isLoading } = useUser();
-
+  const { isLoading, data } = useUser();
+useEffect(() => {
+  if (data) {
+    userStore.setUser(data);
+  }
+}, [data, userStore]);
   const isAuth = userStore.user !== null;
 
   if (isLoading) return <Loader />;

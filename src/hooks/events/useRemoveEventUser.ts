@@ -7,8 +7,8 @@ export const useRemoveEventUser = () => {
 
   return useMutation({
     mutationFn: API.events.removmeEventById,
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: eventsKeys.myEvents() });
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: eventsKeys.myEvents() });
     },
     onError: (error) => {
       console.error(error);

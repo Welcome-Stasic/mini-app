@@ -1,8 +1,8 @@
-import React from "react";
 import EventCard from "./EventCard";
 import * as S from "../styles/styles.events";
 import { IconArrowRight } from "../icon/icons";
 import type { EventItem } from "../types/events";
+import { memo } from "react";
 
 interface EventSectionProps {
   title: string;
@@ -13,7 +13,7 @@ interface EventSectionProps {
   emptyPlaceholder?: string;
 }
 
-export function EventSection({
+export const EventSection = memo(function EventSection({
   title,
   icon,
   events,
@@ -46,3 +46,4 @@ export function EventSection({
     </S.Section>
   );
 }
+);

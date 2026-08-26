@@ -26,8 +26,9 @@ export const signOut = async (): Promise<void> => {
   await apiClient.get(SIGN_OUT);
 };
 // Обновление пользователя
-export const updateUser = async (userData: IUpdateUser): Promise<void> => {
-  await apiClient.put(UPDATE_ACCOUNT, userData);
+export const updateUser = async (userData: IUpdateUser): Promise<UserProfile> => {
+  const response = await apiClient.put(UPDATE_ACCOUNT, userData);
+  return response.data;
 };
 // Обнолвение аватарки
 export const changeAvatar = async (avatar: File): Promise<string> => {

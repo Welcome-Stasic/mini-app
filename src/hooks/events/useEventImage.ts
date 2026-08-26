@@ -4,14 +4,9 @@ import { API } from "../../axios";
 export const useEventImage = (eventId: string | undefined, index: number) => {
   return useQuery({
     queryKey: ["eventImage", eventId, index],
-    queryFn: async () => {
-      try {
+    queryFn: () => {
         if (!eventId) return null;
-        const blob = await API.events.getEventImage(eventId, index);
-        return blob ? URL.createObjectURL(blob) : null;
-      } catch (error) {
-        return null;
-      }
+        return API.events.getEventImage(eventId, index).then(blob => blob ? URL.createObjectURL(blob) : null);
     },
     enabled: !!eventId && index >= 1 && index <= 4,
     staleTime: 1000 * 60 * 5,

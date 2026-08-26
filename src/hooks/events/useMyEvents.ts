@@ -17,8 +17,7 @@ export const useMyEvents = () => {
       myEventsStore.loadMyEvents(mappedEvents);
       return mappedEvents;
     },
-    staleTime: 0,
-    refetchOnMount: true,
+    staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: true,
     retry: false,
   });

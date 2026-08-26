@@ -4,12 +4,12 @@ import { Alert, Box } from "@mui/material";
 import { useWebHaptics } from "web-haptics/react";
 import { useStore } from "../store/storeProvider";
 import { observer } from "mobx-react-lite";
-import { useEvents } from "../hooks/events/useEvents";
-import { useAddEventUser } from "../hooks/events/useAddEventUser";
-import { useRemoveEventUser } from "../hooks/events/useRemoveEventUser";
+import { useEvents } from "../hooks/events/useEvents.ts";
+import { useAddEventUser } from "../hooks/events/useAddEventUser.ts";
+import { useRemoveEventUser } from "../hooks/events/useRemoveEventUser.ts";
 import { Loader } from "./loader";
-import { useEventImage } from "../hooks/events/useEventImage";
-import { useAlert } from "../hooks/useAlert";
+import { useEventImage } from "../hooks/events/useEventImage.ts";
+import { useAlert } from "../hooks/useAlert.ts";
 
 const EventDetail = observer(() => {
   const navigate = useNavigate();
